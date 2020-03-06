@@ -199,7 +199,7 @@ namespace VJInfomationManager210220
             bool GetHavePhone = checkBox23.Checked;
 
             int loop = 1;
-
+thu thoi
             for (int a = 0; a < ListAllVJI.Count; a++)
             {
                 VietJetInfomation CurrentVJI = ListAllVJI[a];
