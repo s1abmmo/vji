@@ -136,11 +136,31 @@ namespace VJInfomationManager210220
             SaveOptions();
             dataGridView1.Rows.Clear();
             List<VietJetInfomation> ListAllVJI = new DataServer().LoadAllData();
-            ListVJIFiltered = new List<VietJetInfomation>();
             List<VietJetInfomation2> ListAllVJI2 = new DataServer().LoadAllDataVJ2();
+            ListVJIFiltered = new List<VietJetInfomation>();
             MessageBox.Show(ListAllVJI.Count.ToString() + " " + ListAllVJI2.Count.ToString());
-            var VJIJoin = ListAllVJI.Join(ListAllVJI2, arg => arg.CustomerIsCode, arg => arg.CustomerIsCode, (first, second) => new { CustomerIsCode = first.CustomerIsCode, FirstName = first.FirstName, LastName = first.LastName, DateFlight1t1 = first.DateFlight1t1, Flight1 = first.Flight1, Verify1 = first.Verify1, DateFlight2t1 = first.DateFlight2t1, Flight2 = first.Flight2, Verify2 = first.Verify2, Seats = first.Seats, DateFlight1t2 = second.DateFlight1t2, FlightCode1 = second.FlightCode1, DateFlight2t2 = second.DateFlight2t2, FlightCode2 = second.FlightCode2, Email = second.Email, EmailStandardizedSuccess = second.EmailStandardizedSuccess, EmailStandardized = second.EmailStandardized, Phone = second.Phone, PhoneStandardizedSuccess = second.PhoneStandardizedSuccess, PhoneStandardized = second.PhoneStandardized, PhoneNetwork = second.PhoneNetwork, Confirm = second.Confirm, PaymentStatus = second.PaymentStatus });
-            MessageBox.Show(VJIJoin.Count().ToString());
+            //var VJIJoin = ListAllVJI.Join(ListAllVJI2, arg => arg.CustomerIsCode, arg => arg.CustomerIsCode, (first, second) => new { CustomerIsCode = first.CustomerIsCode, FirstName = first.FirstName, LastName = first.LastName, DateFlight1t1 = first.DateFlight1t1, Flight1 = first.Flight1, Verify1 = first.Verify1, DateFlight2t1 = first.DateFlight2t1, Flight2 = first.Flight2, Verify2 = first.Verify2, Seats = first.Seats, DateFlight1t2 = second.DateFlight1t2, FlightCode1 = second.FlightCode1, DateFlight2t2 = second.DateFlight2t2, FlightCode2 = second.FlightCode2, Email = second.Email, EmailStandardizedSuccess = second.EmailStandardizedSuccess, EmailStandardized = second.EmailStandardized, Phone = second.Phone, PhoneStandardizedSuccess = second.PhoneStandardizedSuccess, PhoneStandardized = second.PhoneStandardized, PhoneNetwork = second.PhoneNetwork, Confirm = second.Confirm, PaymentStatus = second.PaymentStatus });
+            for (int a = 0; a < ListAllVJI2.Count; a++)
+            {
+                int index = ListAllVJI.IndexOf(ListAllVJI.Where(p => p.CustomerIsCode == ListAllVJI2[a].CustomerIsCode).FirstOrDefault());
+                MessageBox.Show(index.ToString() + " " + a.ToString());
+                if (index < 0)
+                    continue;
+                ListAllVJI[index].DateFlight1t2 = ListAllVJI2[a].DateFlight1t2;
+                ListAllVJI[index].FlightCode1 = ListAllVJI2[a].FlightCode1;
+                ListAllVJI[index].DateFlight2t2 = ListAllVJI2[a].DateFlight2t2;
+                ListAllVJI[index].FlightCode2 = ListAllVJI2[a].FlightCode2;
+                ListAllVJI[index].Email = ListAllVJI2[a].Email;
+                ListAllVJI[index].EmailStandardizedSuccess = ListAllVJI2[a].EmailStandardizedSuccess;
+                ListAllVJI[index].EmailStandardized = ListAllVJI2[a].EmailStandardized;
+                ListAllVJI[index].Phone = ListAllVJI2[a].Phone;
+                ListAllVJI[index].PhoneStandardizedSuccess = ListAllVJI2[a].PhoneStandardizedSuccess;
+                ListAllVJI[index].PhoneStandardized = ListAllVJI2[a].PhoneStandardized;
+                ListAllVJI[index].PhoneNetwork = ListAllVJI2[a].PhoneNetwork;
+                ListAllVJI[index].Confirm = ListAllVJI2[a].Confirm;
+                ListAllVJI[index].PaymentStatus = ListAllVJI2[a].PaymentStatus;
+            }
+            //MessageBox.Show(VJIJoin.Count().ToString());
             bool FirstNameCountryVietNam = checkBox1.Checked;
             string[] ListFirstNameCountryVietNam = File.ReadAllLines(Application.StartupPath + "//firstnamevn.txt");
 
@@ -180,10 +200,9 @@ namespace VJInfomationManager210220
 
             int loop = 1;
 
-            //for(int a = 0; a < ListAllVJI.Count; a++)
-            foreach(var CurrentVJI in VJIJoin)
+            for (int a = 0; a < ListAllVJI.Count; a++)
             {
-                //VietJetInfomation CurrentVJI = ListAllVJI[a];
+                VietJetInfomation CurrentVJI = ListAllVJI[a];
                 if (FirstNameCountryVietNam && !FirstNameOtherCountry)
                 {
                     bool IsFirstNameVietNam = false;
@@ -356,7 +375,7 @@ namespace VJInfomationManager210220
                     if (CurrentVJI.Phone == null || CurrentVJI.Phone == "")
                         continue;
 
-                dataGridView1.Rows.Add(loop.ToString(),CurrentVJI.CustomerIsCode, CurrentVJI.FirstName, CurrentVJI.LastName, CurrentVJI.DateFlight1t1, CurrentVJI.Flight1,CurrentVJI.Verify1, CurrentVJI.DateFlight2t1,CurrentVJI.Flight2,CurrentVJI.Verify2, CurrentVJI.Seats);
+                dataGridView1.Rows.Add(loop.ToString(), CurrentVJI.CustomerIsCode, CurrentVJI.FirstName, CurrentVJI.LastName, CurrentVJI.DateFlight1t1, CurrentVJI.Flight1, CurrentVJI.Verify1, CurrentVJI.DateFlight2t1, CurrentVJI.Flight2, CurrentVJI.Verify2, CurrentVJI.Seats, CurrentVJI.DateFlight1t2, CurrentVJI.FlightCode1, CurrentVJI.DateFlight2t2, CurrentVJI.FlightCode2, CurrentVJI.Email, CurrentVJI.EmailStandardizedSuccess, CurrentVJI.EmailStandardized, CurrentVJI.Phone, CurrentVJI.PhoneStandardizedSuccess, CurrentVJI.PhoneStandardized, CurrentVJI.PhoneNetwork, CurrentVJI.Confirm, CurrentVJI.PaymentStatus);
                 loop++;
                 ListVJIFiltered.Add(new VietJetInfomation { CustomerIsCode = CurrentVJI.CustomerIsCode, FirstName = CurrentVJI.FirstName, LastName = CurrentVJI.LastName, DateFlight1t1 = CurrentVJI.DateFlight1t1, Flight1 = CurrentVJI.Flight1, Verify1 = CurrentVJI.Verify1, DateFlight2t1 = CurrentVJI.DateFlight2t1, Flight2 = CurrentVJI.Flight2, Verify2 = CurrentVJI.Verify2, DateFlight1t2 = CurrentVJI.DateFlight1t2, FlightCode1 = CurrentVJI.FlightCode1, DateFlight2t2 = CurrentVJI.DateFlight2t2, Email = CurrentVJI.Email, EmailStandardizedSuccess = CurrentVJI.EmailStandardizedSuccess, EmailStandardized = CurrentVJI.EmailStandardized, Phone = CurrentVJI.Phone, PhoneStandardizedSuccess = CurrentVJI.PhoneStandardizedSuccess, PhoneStandardized = CurrentVJI.PhoneStandardized, PhoneNetwork = CurrentVJI.PhoneNetwork, Confirm = CurrentVJI.Confirm, PaymentStatus = CurrentVJI.PaymentStatus });
             }
