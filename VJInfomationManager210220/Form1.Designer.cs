@@ -29,8 +29,28 @@
         private void InitializeComponent()
         {
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column17 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column18 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.checkBox24 = new System.Windows.Forms.CheckBox();
             this.checkBox23 = new System.Windows.Forms.CheckBox();
             this.checkBox22 = new System.Windows.Forms.CheckBox();
             this.checkBox21 = new System.Windows.Forms.CheckBox();
@@ -79,24 +99,9 @@
             this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column17 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column18 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.checkBox25 = new System.Windows.Forms.CheckBox();
+            this.checkBox26 = new System.Windows.Forms.CheckBox();
+            this.checkBox27 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -135,9 +140,124 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dataGridView1.Size = new System.Drawing.Size(869, 594);
+            this.dataGridView1.Size = new System.Drawing.Size(869, 639);
             this.dataGridView1.TabIndex = 0;
+            // 
+            // Column12
+            // 
+            this.Column12.HeaderText = "STT";
+            this.Column12.Name = "Column12";
+            this.Column12.ReadOnly = true;
+            this.Column12.Width = 40;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "Mã";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            this.Column1.Width = 75;
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "Họ";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "(Tên đệm)Tên";
+            this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
+            this.Column3.Width = 125;
+            // 
+            // Column8
+            // 
+            this.Column8.HeaderText = "Ngày đi";
+            this.Column8.Name = "Column8";
+            this.Column8.ReadOnly = true;
+            this.Column8.Width = 75;
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "Mã đi";
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
+            // 
+            // Column9
+            // 
+            this.Column9.HeaderText = "X.nhận";
+            this.Column9.Name = "Column9";
+            this.Column9.ReadOnly = true;
+            this.Column9.Width = 50;
+            // 
+            // Column10
+            // 
+            this.Column10.HeaderText = "Ngày về";
+            this.Column10.Name = "Column10";
+            this.Column10.ReadOnly = true;
+            this.Column10.Width = 75;
+            // 
+            // Column5
+            // 
+            this.Column5.HeaderText = "Mã về";
+            this.Column5.Name = "Column5";
+            this.Column5.ReadOnly = true;
+            // 
+            // Column11
+            // 
+            this.Column11.HeaderText = "X.nhận";
+            this.Column11.Name = "Column11";
+            this.Column11.ReadOnly = true;
+            this.Column11.Width = 50;
+            // 
+            // Column6
+            // 
+            this.Column6.HeaderText = "S.ghế";
+            this.Column6.Name = "Column6";
+            this.Column6.ReadOnly = true;
+            this.Column6.Width = 50;
+            // 
+            // Column7
+            // 
+            this.Column7.HeaderText = "Ngày - mã 1c";
+            this.Column7.Name = "Column7";
+            this.Column7.ReadOnly = true;
+            // 
+            // Column13
+            // 
+            this.Column13.HeaderText = "Ngày - mã 2c";
+            this.Column13.Name = "Column13";
+            this.Column13.ReadOnly = true;
+            // 
+            // Column14
+            // 
+            this.Column14.HeaderText = "Email";
+            this.Column14.Name = "Column14";
+            this.Column14.ReadOnly = true;
+            // 
+            // Column15
+            // 
+            this.Column15.HeaderText = "SĐT";
+            this.Column15.Name = "Column15";
+            this.Column15.ReadOnly = true;
+            // 
+            // Column16
+            // 
+            this.Column16.HeaderText = "Nhà mạng";
+            this.Column16.Name = "Column16";
+            this.Column16.ReadOnly = true;
+            // 
+            // Column17
+            // 
+            this.Column17.HeaderText = "X.Nhận";
+            this.Column17.Name = "Column17";
+            this.Column17.ReadOnly = true;
+            // 
+            // Column18
+            // 
+            this.Column18.HeaderText = "T.toán";
+            this.Column18.Name = "Column18";
+            this.Column18.ReadOnly = true;
             // 
             // button1
             // 
@@ -151,6 +271,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.textBox11);
+            this.groupBox1.Controls.Add(this.checkBox24);
             this.groupBox1.Controls.Add(this.checkBox23);
             this.groupBox1.Controls.Add(this.checkBox22);
             this.groupBox1.Controls.Add(this.checkBox21);
@@ -179,11 +301,28 @@
             this.groupBox1.Controls.Add(this.checkBox1);
             this.groupBox1.Location = new System.Drawing.Point(6, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(208, 446);
+            this.groupBox1.Size = new System.Drawing.Size(208, 468);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Tùy chỉnh xuất dữ liệu";
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
+            // 
+            // textBox11
+            // 
+            this.textBox11.Location = new System.Drawing.Point(114, 395);
+            this.textBox11.Name = "textBox11";
+            this.textBox11.Size = new System.Drawing.Size(80, 20);
+            this.textBox11.TabIndex = 25;
+            // 
+            // checkBox24
+            // 
+            this.checkBox24.AutoSize = true;
+            this.checkBox24.Location = new System.Drawing.Point(6, 397);
+            this.checkBox24.Name = "checkBox24";
+            this.checkBox24.Size = new System.Drawing.Size(107, 17);
+            this.checkBox24.TabIndex = 24;
+            this.checkBox24.Text = "Chỉ lấy nhà mạng";
+            this.checkBox24.UseVisualStyleBackColor = true;
             // 
             // checkBox23
             // 
@@ -321,7 +460,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(6, 407);
+            this.button2.Location = new System.Drawing.Point(6, 420);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(188, 33);
             this.button2.TabIndex = 11;
@@ -427,6 +566,9 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.checkBox27);
+            this.groupBox2.Controls.Add(this.checkBox26);
+            this.groupBox2.Controls.Add(this.checkBox25);
             this.groupBox2.Controls.Add(this.checkBox13);
             this.groupBox2.Controls.Add(this.button3);
             this.groupBox2.Controls.Add(this.checkBox10);
@@ -434,9 +576,9 @@
             this.groupBox2.Controls.Add(this.checkBox8);
             this.groupBox2.Controls.Add(this.checkBox7);
             this.groupBox2.Controls.Add(this.checkBox6);
-            this.groupBox2.Location = new System.Drawing.Point(6, 458);
+            this.groupBox2.Location = new System.Drawing.Point(6, 480);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(208, 104);
+            this.groupBox2.Size = new System.Drawing.Size(208, 125);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Tùy chỉnh xuất file text";
@@ -453,7 +595,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(6, 65);
+            this.button3.Location = new System.Drawing.Point(6, 86);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(188, 33);
             this.button3.TabIndex = 6;
@@ -600,7 +742,7 @@
             this.tabControl1.Location = new System.Drawing.Point(869, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(223, 594);
+            this.tabControl1.Size = new System.Drawing.Size(223, 639);
             this.tabControl1.TabIndex = 5;
             // 
             // tabPage1
@@ -612,7 +754,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(215, 568);
+            this.tabPage1.Size = new System.Drawing.Size(215, 587);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Nhập";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -644,133 +786,47 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(215, 568);
+            this.tabPage2.Size = new System.Drawing.Size(215, 613);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Xuất";
             this.tabPage2.UseVisualStyleBackColor = true;
             this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
             // 
-            // Column12
+            // checkBox25
             // 
-            this.Column12.HeaderText = "STT";
-            this.Column12.Name = "Column12";
-            this.Column12.ReadOnly = true;
-            this.Column12.Width = 40;
+            this.checkBox25.AutoSize = true;
+            this.checkBox25.Location = new System.Drawing.Point(6, 65);
+            this.checkBox25.Name = "checkBox25";
+            this.checkBox25.Size = new System.Drawing.Size(51, 17);
+            this.checkBox25.TabIndex = 8;
+            this.checkBox25.Text = "Email";
+            this.checkBox25.UseVisualStyleBackColor = true;
             // 
-            // Column1
+            // checkBox26
             // 
-            this.Column1.HeaderText = "Mã";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            this.Column1.Width = 75;
+            this.checkBox26.AutoSize = true;
+            this.checkBox26.Location = new System.Drawing.Point(55, 65);
+            this.checkBox26.Name = "checkBox26";
+            this.checkBox26.Size = new System.Drawing.Size(48, 17);
+            this.checkBox26.TabIndex = 9;
+            this.checkBox26.Text = "SĐT";
+            this.checkBox26.UseVisualStyleBackColor = true;
             // 
-            // Column2
+            // checkBox27
             // 
-            this.Column2.HeaderText = "Họ";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "(Tên đệm)Tên";
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
-            this.Column3.Width = 125;
-            // 
-            // Column8
-            // 
-            this.Column8.HeaderText = "Ngày đi";
-            this.Column8.Name = "Column8";
-            this.Column8.ReadOnly = true;
-            this.Column8.Width = 75;
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "Mã đi";
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
-            // 
-            // Column9
-            // 
-            this.Column9.HeaderText = "X.nhận";
-            this.Column9.Name = "Column9";
-            this.Column9.ReadOnly = true;
-            this.Column9.Width = 50;
-            // 
-            // Column10
-            // 
-            this.Column10.HeaderText = "Ngày về";
-            this.Column10.Name = "Column10";
-            this.Column10.ReadOnly = true;
-            this.Column10.Width = 75;
-            // 
-            // Column5
-            // 
-            this.Column5.HeaderText = "Mã về";
-            this.Column5.Name = "Column5";
-            this.Column5.ReadOnly = true;
-            // 
-            // Column11
-            // 
-            this.Column11.HeaderText = "X.nhận";
-            this.Column11.Name = "Column11";
-            this.Column11.ReadOnly = true;
-            this.Column11.Width = 50;
-            // 
-            // Column6
-            // 
-            this.Column6.HeaderText = "S.ghế";
-            this.Column6.Name = "Column6";
-            this.Column6.ReadOnly = true;
-            this.Column6.Width = 50;
-            // 
-            // Column7
-            // 
-            this.Column7.HeaderText = "Ngày - mã 1c";
-            this.Column7.Name = "Column7";
-            this.Column7.ReadOnly = true;
-            // 
-            // Column13
-            // 
-            this.Column13.HeaderText = "Ngày - mã 2c";
-            this.Column13.Name = "Column13";
-            this.Column13.ReadOnly = true;
-            // 
-            // Column14
-            // 
-            this.Column14.HeaderText = "Email";
-            this.Column14.Name = "Column14";
-            this.Column14.ReadOnly = true;
-            // 
-            // Column15
-            // 
-            this.Column15.HeaderText = "SĐT";
-            this.Column15.Name = "Column15";
-            this.Column15.ReadOnly = true;
-            // 
-            // Column16
-            // 
-            this.Column16.HeaderText = "Nhà mạng";
-            this.Column16.Name = "Column16";
-            this.Column16.ReadOnly = true;
-            // 
-            // Column17
-            // 
-            this.Column17.HeaderText = "X.Nhận";
-            this.Column17.Name = "Column17";
-            this.Column17.ReadOnly = true;
-            // 
-            // Column18
-            // 
-            this.Column18.HeaderText = "T.toán";
-            this.Column18.Name = "Column18";
-            this.Column18.ReadOnly = true;
+            this.checkBox27.AutoSize = true;
+            this.checkBox27.Location = new System.Drawing.Point(105, 65);
+            this.checkBox27.Name = "checkBox27";
+            this.checkBox27.Size = new System.Drawing.Size(75, 17);
+            this.checkBox27.TabIndex = 10;
+            this.checkBox27.Text = "Nhà mạng";
+            this.checkBox27.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1092, 594);
+            this.ClientSize = new System.Drawing.Size(1092, 639);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.dataGridView1);
             this.Name = "Form1";
@@ -860,6 +916,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column16;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column17;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column18;
+        private System.Windows.Forms.TextBox textBox11;
+        private System.Windows.Forms.CheckBox checkBox24;
+        private System.Windows.Forms.CheckBox checkBox27;
+        private System.Windows.Forms.CheckBox checkBox26;
+        private System.Windows.Forms.CheckBox checkBox25;
     }
 }
 

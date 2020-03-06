@@ -198,6 +198,9 @@ namespace VJInfomationManager210220
             bool GetHaveEmail = checkBox22.Checked;
             bool GetHavePhone = checkBox23.Checked;
 
+            bool OnlyPhoneNetwork = checkBox24.Checked;
+            string PhoneNetWork = textBox11.Text;
+
             int loop = 1;
 
             for (int a = 0; a < ListAllVJI.Count; a++)
@@ -327,13 +330,21 @@ namespace VJInfomationManager210220
                 if (NoGetLastName)
                     if (CurrentVJI.LastName != NoLastNameGet)
                         continue;
+                string Email = CurrentVJI.Email;
                 if (OnlyEmailStandardizedSuccess)
                     if (!Convert.ToBoolean(CurrentVJI.EmailStandardizedSuccess))
+                    {
                         continue;
+                    }
+                    else Email = CurrentVJI.EmailStandardized;
 
+                string Phone = CurrentVJI.Phone;
                 if (OnlyPhoneStandardizedSuccess)
                     if (!Convert.ToBoolean(CurrentVJI.PhoneStandardizedSuccess))
+                    {
                         continue;
+                    }
+                    else Phone = CurrentVJI.PhoneStandardized;
 
                 if (EmailBlackListChecked)
                 {
@@ -367,6 +378,7 @@ namespace VJInfomationManager210220
                         if (IsBlackList)
                             continue;
                     }
+
                 if (GetHaveEmail)
                     if (CurrentVJI.Email == null || CurrentVJI.Email == "")
                         continue;
@@ -375,7 +387,11 @@ namespace VJInfomationManager210220
                     if (CurrentVJI.Phone == null || CurrentVJI.Phone == "")
                         continue;
 
-                dataGridView1.Rows.Add(loop.ToString(), CurrentVJI.CustomerIsCode, CurrentVJI.FirstName, CurrentVJI.LastName, CurrentVJI.DateFlight1t1, CurrentVJI.Flight1, CurrentVJI.Verify1, CurrentVJI.DateFlight2t1, CurrentVJI.Flight2, CurrentVJI.Verify2, CurrentVJI.Seats, CurrentVJI.DateFlight1t2, CurrentVJI.FlightCode1, CurrentVJI.DateFlight2t2, CurrentVJI.FlightCode2, CurrentVJI.Email, CurrentVJI.EmailStandardizedSuccess, CurrentVJI.EmailStandardized, CurrentVJI.Phone, CurrentVJI.PhoneStandardizedSuccess, CurrentVJI.PhoneStandardized, CurrentVJI.PhoneNetwork, CurrentVJI.Confirm, CurrentVJI.PaymentStatus);
+                if (OnlyPhoneNetwork)
+                    if (CurrentVJI.PhoneNetwork != PhoneNetWork)
+                        continue;
+
+                dataGridView1.Rows.Add(loop.ToString(), CurrentVJI.CustomerIsCode, CurrentVJI.FirstName, CurrentVJI.LastName, CurrentVJI.DateFlight1t1, CurrentVJI.Flight1, CurrentVJI.Verify1, CurrentVJI.DateFlight2t1, CurrentVJI.Flight2, CurrentVJI.Verify2, CurrentVJI.Seats, CurrentVJI.DateFlight1t2 + " " + CurrentVJI.FlightCode1, CurrentVJI.DateFlight2t2 + " " + CurrentVJI.FlightCode2, Email, Phone, CurrentVJI.PhoneNetwork, CurrentVJI.Confirm, CurrentVJI.PaymentStatus);
                 loop++;
                 ListVJIFiltered.Add(new VietJetInfomation { CustomerIsCode = CurrentVJI.CustomerIsCode, FirstName = CurrentVJI.FirstName, LastName = CurrentVJI.LastName, DateFlight1t1 = CurrentVJI.DateFlight1t1, Flight1 = CurrentVJI.Flight1, Verify1 = CurrentVJI.Verify1, DateFlight2t1 = CurrentVJI.DateFlight2t1, Flight2 = CurrentVJI.Flight2, Verify2 = CurrentVJI.Verify2, DateFlight1t2 = CurrentVJI.DateFlight1t2, FlightCode1 = CurrentVJI.FlightCode1, DateFlight2t2 = CurrentVJI.DateFlight2t2, Email = CurrentVJI.Email, EmailStandardizedSuccess = CurrentVJI.EmailStandardizedSuccess, EmailStandardized = CurrentVJI.EmailStandardized, Phone = CurrentVJI.Phone, PhoneStandardizedSuccess = CurrentVJI.PhoneStandardizedSuccess, PhoneStandardized = CurrentVJI.PhoneStandardized, PhoneNetwork = CurrentVJI.PhoneNetwork, Confirm = CurrentVJI.Confirm, PaymentStatus = CurrentVJI.PaymentStatus });
             }
@@ -391,6 +407,9 @@ namespace VJInfomationManager210220
             bool Flight = checkBox9.Checked;
             bool Seats = checkBox10.Checked;
             bool Date = checkBox13.Checked;
+            bool Email = checkBox25.Checked;
+            bool Phone = checkBox26.Checked;
+            bool PhoneNetwork = checkBox27.Checked;
             for(int a = 0; a < ListVJIFiltered.Count; a++)
             {
                 Array.Resize(ref Export, Export.Length + 1);
@@ -410,6 +429,12 @@ namespace VJInfomationManager210220
                     Export[Export.Length - 1] += ListVJIFiltered[a].Flight2 + "|";
                 if (Seats)
                     Export[Export.Length - 1] += ListVJIFiltered[a].Seats + "|";
+                if(Email)
+                    Export[Export.Length - 1] += ListVJIFiltered[a].Email + "|";
+                if (Phone)
+                    Export[Export.Length - 1] += ListVJIFiltered[a].Phone + "|";
+                if (PhoneNetwork)
+                    Export[Export.Length - 1] += ListVJIFiltered[a].PhoneNetwork + "|";
                 Export[Export.Length - 1].Remove(Export[Export.Length - 1].Length - 1);
             }
             File.WriteAllLines(Application.StartupPath + "//Export.txt", Export);
