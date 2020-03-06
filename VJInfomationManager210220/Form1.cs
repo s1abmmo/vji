@@ -138,7 +138,9 @@ namespace VJInfomationManager210220
             List<VietJetInfomation> ListAllVJI = new DataServer().LoadAllData();
             ListVJIFiltered = new List<VietJetInfomation>();
             List<VietJetInfomation2> ListAllVJI2 = new DataServer().LoadAllDataVJ2();
+            MessageBox.Show(ListAllVJI.Count.ToString() + " " + ListAllVJI2.Count.ToString());
             var VJIJoin = ListAllVJI.Join(ListAllVJI2, arg => arg.CustomerIsCode, arg => arg.CustomerIsCode, (first, second) => new { CustomerIsCode = first.CustomerIsCode, FirstName = first.FirstName, LastName = first.LastName, DateFlight1t1 = first.DateFlight1t1, Flight1 = first.Flight1, Verify1 = first.Verify1, DateFlight2t1 = first.DateFlight2t1, Flight2 = first.Flight2, Verify2 = first.Verify2, Seats = first.Seats, DateFlight1t2 = second.DateFlight1t2, FlightCode1 = second.FlightCode1, DateFlight2t2 = second.DateFlight2t2, FlightCode2 = second.FlightCode2, Email = second.Email, EmailStandardizedSuccess = second.EmailStandardizedSuccess, EmailStandardized = second.EmailStandardized, Phone = second.Phone, PhoneStandardizedSuccess = second.PhoneStandardizedSuccess, PhoneStandardized = second.PhoneStandardized, PhoneNetwork = second.PhoneNetwork, Confirm = second.Confirm, PaymentStatus = second.PaymentStatus });
+            MessageBox.Show(VJIJoin.Count().ToString());
             bool FirstNameCountryVietNam = checkBox1.Checked;
             string[] ListFirstNameCountryVietNam = File.ReadAllLines(Application.StartupPath + "//firstnamevn.txt");
 
@@ -802,7 +804,7 @@ namespace VJInfomationManager210220
             MySqlConnection conn = new MySqlConnection("SERVER=" + InputData.Server + ";DATABASE=" + InputData.Database + ";UID=" + InputData.UID + ";PASSWORD=" + InputData.Password + ";CHARSET=utf8;");
             conn.Open();
             string[] result = new string[0];
-            string cmd = "SELECT id,customeriscode,dateflight1,flightcode1,dateflight2,flightcode2,email,emailstandardizedsuccess,emailstandardized,phone,phonestandardizedsuccess,phonestandardized,phonenetwork,confirm,paymentstatus FROM VietJetInfomation2";
+            string cmd = "SELECT id,customeriscode,firstname,lastname,dateflight1,flightcode1,dateflight2,flightcode2,email,emailstandardizedsuccess,emailstandardized,phone,phonestandardizedsuccess,phonestandardized,phonenetwork,confirm,paymentstatus FROM VietJetInfomation2";
             MySqlCommand cmd1 = new MySqlCommand();
             cmd1.CommandText = cmd;
             cmd1.Connection = conn;
