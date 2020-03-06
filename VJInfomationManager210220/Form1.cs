@@ -140,7 +140,7 @@ namespace VJInfomationManager210220
             ListVJIFiltered = new List<VietJetInfomation>();
             MessageBox.Show(ListAllVJI.Count.ToString() + " " + ListAllVJI2.Count.ToString());
             //var VJIJoin = ListAllVJI.Join(ListAllVJI2, arg => arg.CustomerIsCode, arg => arg.CustomerIsCode, (first, second) => new { CustomerIsCode = first.CustomerIsCode, FirstName = first.FirstName, LastName = first.LastName, DateFlight1t1 = first.DateFlight1t1, Flight1 = first.Flight1, Verify1 = first.Verify1, DateFlight2t1 = first.DateFlight2t1, Flight2 = first.Flight2, Verify2 = first.Verify2, Seats = first.Seats, DateFlight1t2 = second.DateFlight1t2, FlightCode1 = second.FlightCode1, DateFlight2t2 = second.DateFlight2t2, FlightCode2 = second.FlightCode2, Email = second.Email, EmailStandardizedSuccess = second.EmailStandardizedSuccess, EmailStandardized = second.EmailStandardized, Phone = second.Phone, PhoneStandardizedSuccess = second.PhoneStandardizedSuccess, PhoneStandardized = second.PhoneStandardized, PhoneNetwork = second.PhoneNetwork, Confirm = second.Confirm, PaymentStatus = second.PaymentStatus });
-            for (int a = 0; a < ListAllVJI2.Count; a++)
+            for (int a = ListAllVJI2.Count-1; a > -1; a--)
             {
                 int index = ListAllVJI.IndexOf(ListAllVJI.Where(p => p.CustomerIsCode == ListAllVJI2[a].CustomerIsCode).FirstOrDefault());
                 MessageBox.Show(index.ToString() + " " + a.ToString());
@@ -159,8 +159,11 @@ namespace VJInfomationManager210220
                 ListAllVJI[index].PhoneNetwork = ListAllVJI2[a].PhoneNetwork;
                 ListAllVJI[index].Confirm = ListAllVJI2[a].Confirm;
                 ListAllVJI[index].PaymentStatus = ListAllVJI2[a].PaymentStatus;
+                ListAllVJI2.Remove(ListAllVJI2[a]);
             }
-            //MessageBox.Show(VJIJoin.Count().ToString());
+            for (int a = 0; a < ListAllVJI2.Count; a++)
+                ListAllVJI.Add(new VietJetInfomation { CustomerIsCode = ListAllVJI2[a].CustomerIsCode, FirstName = ListAllVJI2[a].FirstName, LastName = ListAllVJI2[a].LastName, DateFlight1t2 = ListAllVJI2[a].DateFlight1t2, FlightCode1 = ListAllVJI2[a].FlightCode1, DateFlight2t2 = ListAllVJI2[a].DateFlight2t2, FlightCode2 = ListAllVJI2[a].FlightCode2, Email = ListAllVJI2[a].Email, EmailStandardizedSuccess = ListAllVJI2[a].EmailStandardizedSuccess, EmailStandardized = ListAllVJI2[a].EmailStandardized, Phone = ListAllVJI2[a].Phone, PhoneStandardizedSuccess = ListAllVJI2[a].PhoneStandardizedSuccess, PhoneNetwork = ListAllVJI2[a].PhoneNetwork, Confirm = ListAllVJI2[a].Confirm, PaymentStatus = ListAllVJI2[a].PaymentStatus });
+            MessageBox.Show(ListAllVJI2.Count.ToString());
             bool FirstNameCountryVietNam = checkBox1.Checked;
             string[] ListFirstNameCountryVietNam = File.ReadAllLines(Application.StartupPath + "//firstnamevn.txt");
 
