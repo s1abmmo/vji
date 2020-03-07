@@ -29,24 +29,6 @@
         private void InitializeComponent()
         {
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column17 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column18 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.textBox11 = new System.Windows.Forms.TextBox();
@@ -78,6 +60,9 @@
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.checkBox27 = new System.Windows.Forms.CheckBox();
+            this.checkBox26 = new System.Windows.Forms.CheckBox();
+            this.checkBox25 = new System.Windows.Forms.CheckBox();
             this.checkBox13 = new System.Windows.Forms.CheckBox();
             this.button3 = new System.Windows.Forms.Button();
             this.checkBox10 = new System.Windows.Forms.CheckBox();
@@ -99,9 +84,7 @@
             this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.checkBox25 = new System.Windows.Forms.CheckBox();
-            this.checkBox26 = new System.Windows.Forms.CheckBox();
-            this.checkBox27 = new System.Windows.Forms.CheckBox();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -116,148 +99,13 @@
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column12,
-            this.Column1,
-            this.Column2,
-            this.Column3,
-            this.Column8,
-            this.Column4,
-            this.Column9,
-            this.Column10,
-            this.Column5,
-            this.Column11,
-            this.Column6,
-            this.Column7,
-            this.Column13,
-            this.Column14,
-            this.Column15,
-            this.Column16,
-            this.Column17,
-            this.Column18});
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Left;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(869, 639);
+            this.dataGridView1.Size = new System.Drawing.Size(867, 639);
             this.dataGridView1.TabIndex = 0;
-            // 
-            // Column12
-            // 
-            this.Column12.HeaderText = "STT";
-            this.Column12.Name = "Column12";
-            this.Column12.ReadOnly = true;
-            this.Column12.Width = 40;
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "Mã";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            this.Column1.Width = 75;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Họ";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "(Tên đệm)Tên";
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
-            this.Column3.Width = 125;
-            // 
-            // Column8
-            // 
-            this.Column8.HeaderText = "Ngày đi";
-            this.Column8.Name = "Column8";
-            this.Column8.ReadOnly = true;
-            this.Column8.Width = 75;
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "Mã đi";
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
-            // 
-            // Column9
-            // 
-            this.Column9.HeaderText = "X.nhận";
-            this.Column9.Name = "Column9";
-            this.Column9.ReadOnly = true;
-            this.Column9.Width = 50;
-            // 
-            // Column10
-            // 
-            this.Column10.HeaderText = "Ngày về";
-            this.Column10.Name = "Column10";
-            this.Column10.ReadOnly = true;
-            this.Column10.Width = 75;
-            // 
-            // Column5
-            // 
-            this.Column5.HeaderText = "Mã về";
-            this.Column5.Name = "Column5";
-            this.Column5.ReadOnly = true;
-            // 
-            // Column11
-            // 
-            this.Column11.HeaderText = "X.nhận";
-            this.Column11.Name = "Column11";
-            this.Column11.ReadOnly = true;
-            this.Column11.Width = 50;
-            // 
-            // Column6
-            // 
-            this.Column6.HeaderText = "S.ghế";
-            this.Column6.Name = "Column6";
-            this.Column6.ReadOnly = true;
-            this.Column6.Width = 50;
-            // 
-            // Column7
-            // 
-            this.Column7.HeaderText = "Ngày - mã 1c";
-            this.Column7.Name = "Column7";
-            this.Column7.ReadOnly = true;
-            // 
-            // Column13
-            // 
-            this.Column13.HeaderText = "Ngày - mã 2c";
-            this.Column13.Name = "Column13";
-            this.Column13.ReadOnly = true;
-            // 
-            // Column14
-            // 
-            this.Column14.HeaderText = "Email";
-            this.Column14.Name = "Column14";
-            this.Column14.ReadOnly = true;
-            // 
-            // Column15
-            // 
-            this.Column15.HeaderText = "SĐT";
-            this.Column15.Name = "Column15";
-            this.Column15.ReadOnly = true;
-            // 
-            // Column16
-            // 
-            this.Column16.HeaderText = "Nhà mạng";
-            this.Column16.Name = "Column16";
-            this.Column16.ReadOnly = true;
-            // 
-            // Column17
-            // 
-            this.Column17.HeaderText = "X.Nhận";
-            this.Column17.Name = "Column17";
-            this.Column17.ReadOnly = true;
-            // 
-            // Column18
-            // 
-            this.Column18.HeaderText = "T.toán";
-            this.Column18.Name = "Column18";
-            this.Column18.ReadOnly = true;
             // 
             // button1
             // 
@@ -583,6 +431,36 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Tùy chỉnh xuất file text";
             // 
+            // checkBox27
+            // 
+            this.checkBox27.AutoSize = true;
+            this.checkBox27.Location = new System.Drawing.Point(105, 65);
+            this.checkBox27.Name = "checkBox27";
+            this.checkBox27.Size = new System.Drawing.Size(75, 17);
+            this.checkBox27.TabIndex = 10;
+            this.checkBox27.Text = "Nhà mạng";
+            this.checkBox27.UseVisualStyleBackColor = true;
+            // 
+            // checkBox26
+            // 
+            this.checkBox26.AutoSize = true;
+            this.checkBox26.Location = new System.Drawing.Point(55, 65);
+            this.checkBox26.Name = "checkBox26";
+            this.checkBox26.Size = new System.Drawing.Size(48, 17);
+            this.checkBox26.TabIndex = 9;
+            this.checkBox26.Text = "SĐT";
+            this.checkBox26.UseVisualStyleBackColor = true;
+            // 
+            // checkBox25
+            // 
+            this.checkBox25.AutoSize = true;
+            this.checkBox25.Location = new System.Drawing.Point(6, 65);
+            this.checkBox25.Name = "checkBox25";
+            this.checkBox25.Size = new System.Drawing.Size(51, 17);
+            this.checkBox25.TabIndex = 8;
+            this.checkBox25.Text = "Email";
+            this.checkBox25.UseVisualStyleBackColor = true;
+            // 
             // checkBox13
             // 
             this.checkBox13.AutoSize = true;
@@ -738,6 +616,7 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Right;
             this.tabControl1.Location = new System.Drawing.Point(869, 0);
             this.tabControl1.Name = "tabControl1";
@@ -754,7 +633,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(215, 587);
+            this.tabPage1.Size = new System.Drawing.Size(215, 613);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Nhập";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -792,35 +671,15 @@
             this.tabPage2.UseVisualStyleBackColor = true;
             this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
             // 
-            // checkBox25
+            // tabPage3
             // 
-            this.checkBox25.AutoSize = true;
-            this.checkBox25.Location = new System.Drawing.Point(6, 65);
-            this.checkBox25.Name = "checkBox25";
-            this.checkBox25.Size = new System.Drawing.Size(51, 17);
-            this.checkBox25.TabIndex = 8;
-            this.checkBox25.Text = "Email";
-            this.checkBox25.UseVisualStyleBackColor = true;
-            // 
-            // checkBox26
-            // 
-            this.checkBox26.AutoSize = true;
-            this.checkBox26.Location = new System.Drawing.Point(55, 65);
-            this.checkBox26.Name = "checkBox26";
-            this.checkBox26.Size = new System.Drawing.Size(48, 17);
-            this.checkBox26.TabIndex = 9;
-            this.checkBox26.Text = "SĐT";
-            this.checkBox26.UseVisualStyleBackColor = true;
-            // 
-            // checkBox27
-            // 
-            this.checkBox27.AutoSize = true;
-            this.checkBox27.Location = new System.Drawing.Point(105, 65);
-            this.checkBox27.Name = "checkBox27";
-            this.checkBox27.Size = new System.Drawing.Size(75, 17);
-            this.checkBox27.TabIndex = 10;
-            this.checkBox27.Text = "Nhà mạng";
-            this.checkBox27.UseVisualStyleBackColor = true;
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(215, 613);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "tabPage3";
+            this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -831,6 +690,7 @@
             this.Controls.Add(this.dataGridView1);
             this.Name = "Form1";
             this.Text = "VietJet Infomation Manager";
+            this.SizeChanged += new System.EventHandler(this.Form1_SizeChanged);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -898,29 +758,12 @@
         private System.Windows.Forms.CheckBox checkBox20;
         private System.Windows.Forms.CheckBox checkBox23;
         private System.Windows.Forms.CheckBox checkBox22;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column12;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column13;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column14;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column15;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column16;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column17;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column18;
         private System.Windows.Forms.TextBox textBox11;
         private System.Windows.Forms.CheckBox checkBox24;
         private System.Windows.Forms.CheckBox checkBox27;
         private System.Windows.Forms.CheckBox checkBox26;
         private System.Windows.Forms.CheckBox checkBox25;
+        private System.Windows.Forms.TabPage tabPage3;
     }
 }
 
