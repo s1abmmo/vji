@@ -138,6 +138,26 @@ namespace VJInfomationManager210220
             List<VietJetInfomation> ListAllVJI = new DataServer().LoadAllData();
             List<VietJetInfomation2> ListAllVJI2 = new DataServer().LoadAllDataVJ2();
             ListVJIFiltered = new List<VietJetInfomation>();
+            var DataTable = new DataTable();
+            DataTable.Columns.Add("Column1");
+            DataTable.Columns.Add("Column2");
+            DataTable.Columns.Add("Column3");
+            DataTable.Columns.Add("Column4");
+            DataTable.Columns.Add("Column5");
+            DataTable.Columns.Add("Column6");
+            DataTable.Columns.Add("Column7");
+            DataTable.Columns.Add("Column8");
+            DataTable.Columns.Add("Column9");
+            DataTable.Columns.Add("Column10");
+            DataTable.Columns.Add("Column11");
+            DataTable.Columns.Add("Column12");
+            DataTable.Columns.Add("Column13");
+            DataTable.Columns.Add("Column14");
+            DataTable.Columns.Add("Column15");
+            DataTable.Columns.Add("Column16");
+            DataTable.Columns.Add("Column17");
+            DataTable.Columns.Add("Column18");
+
             //MessageBox.Show(ListAllVJI.Count.ToString() + " " + ListAllVJI2.Count.ToString());
             //var VJIJoin = ListAllVJI.Join(ListAllVJI2, arg => arg.CustomerIsCode, arg => arg.CustomerIsCode, (first, second) => new { CustomerIsCode = first.CustomerIsCode, FirstName = first.FirstName, LastName = first.LastName, DateFlight1t1 = first.DateFlight1t1, Flight1 = first.Flight1, Verify1 = first.Verify1, DateFlight2t1 = first.DateFlight2t1, Flight2 = first.Flight2, Verify2 = first.Verify2, Seats = first.Seats, DateFlight1t2 = second.DateFlight1t2, FlightCode1 = second.FlightCode1, DateFlight2t2 = second.DateFlight2t2, FlightCode2 = second.FlightCode2, Email = second.Email, EmailStandardizedSuccess = second.EmailStandardizedSuccess, EmailStandardized = second.EmailStandardized, Phone = second.Phone, PhoneStandardizedSuccess = second.PhoneStandardizedSuccess, PhoneStandardized = second.PhoneStandardized, PhoneNetwork = second.PhoneNetwork, Confirm = second.Confirm, PaymentStatus = second.PaymentStatus });
             for (int a = ListAllVJI2.Count-1; a > -1; a--)
@@ -394,10 +414,14 @@ namespace VJInfomationManager210220
                     if (CurrentVJI.PhoneNetwork != PhoneNetWork)
                         continue;
 
-                dataGridView1.Rows.Add(loop.ToString(), CurrentVJI.CustomerIsCode, CurrentVJI.FirstName, CurrentVJI.LastName, CurrentVJI.DateFlight1t1, CurrentVJI.Flight1, CurrentVJI.Verify1, CurrentVJI.DateFlight2t1, CurrentVJI.Flight2, CurrentVJI.Verify2, CurrentVJI.Seats, CurrentVJI.DateFlight1t2 + " " + CurrentVJI.FlightCode1, CurrentVJI.DateFlight2t2 + " " + CurrentVJI.FlightCode2, Email, Phone, CurrentVJI.PhoneNetwork, CurrentVJI.Confirm, CurrentVJI.PaymentStatus);
+                //dataGridView1.Rows.Add(loop.ToString(), CurrentVJI.CustomerIsCode, CurrentVJI.FirstName, CurrentVJI.LastName, CurrentVJI.DateFlight1t1, CurrentVJI.Flight1, CurrentVJI.Verify1, CurrentVJI.DateFlight2t1, CurrentVJI.Flight2, CurrentVJI.Verify2, CurrentVJI.Seats, CurrentVJI.DateFlight1t2 + " " + CurrentVJI.FlightCode1, CurrentVJI.DateFlight2t2 + " " + CurrentVJI.FlightCode2, Email, Phone, CurrentVJI.PhoneNetwork, CurrentVJI.Confirm, CurrentVJI.PaymentStatus);
+                DataRow datar = DataTable.NewRow();
+                datar["Column1"] = loop.ToString();
+                DataTable.Rows.Add(datar);
                 loop++;
                 ListVJIFiltered.Add(new VietJetInfomation { CustomerIsCode = CurrentVJI.CustomerIsCode, FirstName = CurrentVJI.FirstName, LastName = CurrentVJI.LastName, DateFlight1t1 = CurrentVJI.DateFlight1t1, Flight1 = CurrentVJI.Flight1, Verify1 = CurrentVJI.Verify1, DateFlight2t1 = CurrentVJI.DateFlight2t1, Flight2 = CurrentVJI.Flight2, Verify2 = CurrentVJI.Verify2, DateFlight1t2 = CurrentVJI.DateFlight1t2, FlightCode1 = CurrentVJI.FlightCode1, DateFlight2t2 = CurrentVJI.DateFlight2t2, Email = CurrentVJI.Email, EmailStandardizedSuccess = CurrentVJI.EmailStandardizedSuccess, EmailStandardized = CurrentVJI.EmailStandardized, Phone = CurrentVJI.Phone, PhoneStandardizedSuccess = CurrentVJI.PhoneStandardizedSuccess, PhoneStandardized = CurrentVJI.PhoneStandardized, PhoneNetwork = CurrentVJI.PhoneNetwork, Confirm = CurrentVJI.Confirm, PaymentStatus = CurrentVJI.PaymentStatus });
             }
+            this.dataGridView1.DataSource = DataTable;
         }
 
         private void Button3_Click(object sender, EventArgs e)
