@@ -134,31 +134,90 @@ namespace VJInfomationManager210220
         private void Button2_Click(object sender, EventArgs e)
         {
             SaveOptions();
-            dataGridView1.Rows.Clear();
+            //dataGridView1.Rows.Clear();
+            //dataGridView1.Dispose();
+            dataGridView1.DataSource = null;
             List<VietJetInfomation> ListAllVJI = new DataServer().LoadAllData();
             List<VietJetInfomation2> ListAllVJI2 = new DataServer().LoadAllDataVJ2();
+            //ListVJIFiltered = null;
             ListVJIFiltered = new List<VietJetInfomation>();
+
+            bool DisplayStt = checkBox28.Checked;
+            bool DisplayCustomeriscode = checkBox29.Checked;
+            bool DisplayFirstname = checkBox30.Checked;
+            bool DisplayLastname = checkBox31.Checked;
+            bool DisplayDateflight1t1 = checkBox32.Checked;
+            bool DisplayFlight1 = checkBox33.Checked;
+            bool DisplayVerify1 = checkBox34.Checked;
+            bool DisplayDateflight2t1 = checkBox35.Checked;
+            bool DisplayFlight2 = checkBox36.Checked;
+            bool DisplayVerify2 = checkBox37.Checked;
+            bool DisplaySeats = checkBox38.Checked;
+            bool DisplayDateflight1t2 = checkBox39.Checked;
+            bool DisplayFlightcode1 = checkBox40.Checked;
+            bool DisplayDateflight2t2 = checkBox41.Checked;
+            bool DisplayFlightcode2 = checkBox42.Checked;
+            bool DisplayEmail = checkBox43.Checked;
+            bool DisplayEmailstandardizedsuccess = checkBox44.Checked;
+            bool DisplayEmailstandardized = checkBox45.Checked;
+            bool DisplayPhone = checkBox46.Checked;
+            bool DisplayPhonestandardizedsuccess = checkBox47.Checked;
+            bool DisplayPhonestandardized = checkBox48.Checked;
+            bool DisplayPhonenetwork = checkBox49.Checked;
+            bool DisplayConfirm = checkBox50.Checked;
+            bool DisplayPayment = checkBox51.Checked;
+
+
+
             var DataTable = new DataTable();
-            DataTable.Columns.Add("STT");
-            DataTable.Columns.Add("Mã");
-            DataTable.Columns.Add("Họ");
-            DataTable.Columns.Add("(Tên đệm)Tên");
-            DataTable.Columns.Add("Ngày đi");
-            DataTable.Columns.Add("Mã đi");
-            DataTable.Columns.Add("Xác nhận 1");
-            DataTable.Columns.Add("Ngày về");
-            DataTable.Columns.Add("Mã về");
-            DataTable.Columns.Add("Xác nhận 2");
-            DataTable.Columns.Add("Số ghế");
-            DataTable.Columns.Add("Ngày 1c");
-            DataTable.Columns.Add("Mã 1c");
-            DataTable.Columns.Add("Ngày 2c");
-            DataTable.Columns.Add("Mã 2c");
-            DataTable.Columns.Add("Email");
-            DataTable.Columns.Add("SĐT");
-            DataTable.Columns.Add("Nhà mạng");
-            DataTable.Columns.Add("Xác nhận");
-            DataTable.Columns.Add("Thanh toán");
+            if (DisplayStt)
+                DataTable.Columns.Add("STT");
+            if (DisplayCustomeriscode)
+                DataTable.Columns.Add("Mã khách hàng");
+            if (DisplayFirstname)
+                DataTable.Columns.Add("Họ");
+            if (DisplayLastname)
+                DataTable.Columns.Add("(Tên đệm)Tên");
+            if (DisplayDateflight1t1)
+                DataTable.Columns.Add("Ngày đi");
+            if (DisplayFlight1)
+                DataTable.Columns.Add("Mã đi");
+            if (DisplayVerify1)
+                DataTable.Columns.Add("Xác nhận 1");
+            if (DisplayDateflight2t1)
+                DataTable.Columns.Add("Ngày về");
+            if (DisplayFlight2)
+                DataTable.Columns.Add("Mã về");
+            if (DisplayVerify2)
+                DataTable.Columns.Add("Xác nhận 2");
+            if (DisplaySeats)
+                DataTable.Columns.Add("Số ghế");
+            if (DisplayDateflight1t2)
+                DataTable.Columns.Add("Ngày 1 chiều");
+            if (DisplayFlightcode1)
+                DataTable.Columns.Add("Mã 1 chiều");
+            if (DisplayDateflight2t2)
+                DataTable.Columns.Add("Ngày 2 chiều");
+            if (DisplayFlightcode2)
+                DataTable.Columns.Add("Mã 2 chiều");
+            if (DisplayEmail)
+                DataTable.Columns.Add("Email");
+            if (DisplayEmailstandardizedsuccess)
+                DataTable.Columns.Add("Email C.H thành công");
+            if (DisplayEmailstandardized)
+                DataTable.Columns.Add("Email chuẩn hóa");
+            if (DisplayPhone)
+                DataTable.Columns.Add("SĐT");
+            if (DisplayPhonestandardizedsuccess)
+                DataTable.Columns.Add("SĐT C.H thành công");
+            if (DisplayPhonestandardized)
+                DataTable.Columns.Add("SĐT chuẩn hóa");
+            if (DisplayPhonenetwork)
+                DataTable.Columns.Add("Nhà mạng");
+            if (DisplayConfirm)
+                DataTable.Columns.Add("Xác nhận");
+            if (DisplayPayment)
+                DataTable.Columns.Add("Thanh toán");
 
             //MessageBox.Show(ListAllVJI.Count.ToString() + " " + ListAllVJI2.Count.ToString());
             //var VJIJoin = ListAllVJI.Join(ListAllVJI2, arg => arg.CustomerIsCode, arg => arg.CustomerIsCode, (first, second) => new { CustomerIsCode = first.CustomerIsCode, FirstName = first.FirstName, LastName = first.LastName, DateFlight1t1 = first.DateFlight1t1, Flight1 = first.Flight1, Verify1 = first.Verify1, DateFlight2t1 = first.DateFlight2t1, Flight2 = first.Flight2, Verify2 = first.Verify2, Seats = first.Seats, DateFlight1t2 = second.DateFlight1t2, FlightCode1 = second.FlightCode1, DateFlight2t2 = second.DateFlight2t2, FlightCode2 = second.FlightCode2, Email = second.Email, EmailStandardizedSuccess = second.EmailStandardizedSuccess, EmailStandardized = second.EmailStandardized, Phone = second.Phone, PhoneStandardizedSuccess = second.PhoneStandardizedSuccess, PhoneStandardized = second.PhoneStandardized, PhoneNetwork = second.PhoneNetwork, Confirm = second.Confirm, PaymentStatus = second.PaymentStatus });
@@ -184,7 +243,10 @@ namespace VJInfomationManager210220
                 ListAllVJI2.Remove(ListAllVJI2[a]);
             }
             for (int a = 0; a < ListAllVJI2.Count; a++)
-                ListAllVJI.Add(new VietJetInfomation { CustomerIsCode = ListAllVJI2[a].CustomerIsCode, FirstName = ListAllVJI2[a].FirstName, LastName = ListAllVJI2[a].LastName, DateFlight1t2 = ListAllVJI2[a].DateFlight1t2, FlightCode1 = ListAllVJI2[a].FlightCode1, DateFlight2t2 = ListAllVJI2[a].DateFlight2t2, FlightCode2 = ListAllVJI2[a].FlightCode2, Email = ListAllVJI2[a].Email, EmailStandardizedSuccess = ListAllVJI2[a].EmailStandardizedSuccess, EmailStandardized = ListAllVJI2[a].EmailStandardized, Phone = ListAllVJI2[a].Phone, PhoneStandardizedSuccess = ListAllVJI2[a].PhoneStandardizedSuccess, PhoneNetwork = ListAllVJI2[a].PhoneNetwork, Confirm = ListAllVJI2[a].Confirm, PaymentStatus = ListAllVJI2[a].PaymentStatus });
+                ListAllVJI.Add(new VietJetInfomation { CustomerIsCode = ListAllVJI2[a].CustomerIsCode, FirstName = ListAllVJI2[a].FirstName, LastName = ListAllVJI2[a].LastName, DateFlight1t2 = ListAllVJI2[a].DateFlight1t2, FlightCode1 = ListAllVJI2[a].FlightCode1, DateFlight2t2 = ListAllVJI2[a].DateFlight2t2, FlightCode2 = ListAllVJI2[a].FlightCode2, Email = ListAllVJI2[a].Email, EmailStandardizedSuccess = ListAllVJI2[a].EmailStandardizedSuccess, EmailStandardized = ListAllVJI2[a].EmailStandardized, Phone = ListAllVJI2[a].Phone, PhoneStandardizedSuccess = ListAllVJI2[a].PhoneStandardizedSuccess, PhoneStandardized = ListAllVJI2[a].PhoneStandardized, PhoneNetwork = ListAllVJI2[a].PhoneNetwork, Confirm = ListAllVJI2[a].Confirm, PaymentStatus = ListAllVJI2[a].PaymentStatus });
+
+            //ListAllVJI2 = null;
+
             //MessageBox.Show(ListAllVJI2.Count.ToString());
             bool FirstNameCountryVietNam = checkBox1.Checked;
             string[] ListFirstNameCountryVietNam = File.ReadAllLines(Application.StartupPath + "//firstnamevn.txt");
@@ -226,11 +288,18 @@ namespace VJInfomationManager210220
             bool OnlyPhoneNetwork = checkBox24.Checked;
             string PhoneNetWork = textBox11.Text;
 
+            bool OnlyEmailLoop = checkBox52.Checked;
+            int EmailLoop = Convert.ToInt32(numericUpDown1.Value);
+            bool OnlyPhoneLoop = checkBox53.Checked;
+            int PhoneLoop = Convert.ToInt32(numericUpDown2.Value);
+
             int loop = 1;
+
 
             for (int a = 0; a < ListAllVJI.Count; a++)
             {
                 VietJetInfomation CurrentVJI = ListAllVJI[a];
+                DataRow datar = DataTable.NewRow();
                 if (FirstNameCountryVietNam && !FirstNameOtherCountry)
                 {
                     bool IsFirstNameVietNam = false;
@@ -415,37 +484,79 @@ namespace VJInfomationManager210220
                 if (OnlyPhoneNetwork)
                     if (CurrentVJI.PhoneNetwork != PhoneNetWork)
                         continue;
+                //if (OnlyEmailLoop)
+                //{
+                //    if (Convert.ToBoolean(CurrentVJI.EmailStandardizedSuccess))
+                //        if (ListAllVJI.Where(p => p.EmailStandardized == CurrentVJI.EmailStandardized).Count() < EmailLoop) ;
+                //}
+                //if (OnlyPhoneLoop)
+                //{
+                //    //if (Convert.ToBoolean(CurrentVJI.PhoneStandardizedSuccess))
+                //    if (ListAllVJI.Where(p => p.FirstName == CurrentVJI.FirstName).Count() >= PhoneLoop) ;
+                //    MessageBox.Show(ListAllVJI.GroupBy(item => item.FirstName).Where(item => item.Count() > 1).Sum(item => item.Count()).ToString());
+                //}
+                
 
                 //dataGridView1.Rows.Add(loop.ToString(), CurrentVJI.CustomerIsCode, CurrentVJI.FirstName, CurrentVJI.LastName, CurrentVJI.DateFlight1t1, CurrentVJI.Flight1, CurrentVJI.Verify1, CurrentVJI.DateFlight2t1, CurrentVJI.Flight2, CurrentVJI.Verify2, CurrentVJI.Seats, CurrentVJI.DateFlight1t2 + " " + CurrentVJI.FlightCode1, CurrentVJI.DateFlight2t2 + " " + CurrentVJI.FlightCode2, Email, Phone, CurrentVJI.PhoneNetwork, CurrentVJI.Confirm, CurrentVJI.PaymentStatus);
-                DataRow datar = DataTable.NewRow();
-                datar["STT"] = loop.ToString();
-                datar["Mã"]=CurrentVJI.CustomerIsCode;
-                datar["Họ"] = CurrentVJI.FirstName;
-                datar["(Tên đệm)Tên"] = CurrentVJI.LastName;
-                datar["Ngày đi"] = CurrentVJI.DateFlight1t1;
-                datar["Mã đi"] = CurrentVJI.Flight1;
-                datar["Xác nhận 1"] = CurrentVJI.Verify1;
-                datar["Ngày về"] = CurrentVJI.DateFlight2t1;
-                datar["Mã về"] = CurrentVJI.Flight2;
-                datar["Xác nhận 2"] = CurrentVJI.Verify2;
-                datar["Số ghế"] = CurrentVJI.Seats;
-                datar["Ngày 1c"] = CurrentVJI.DateFlight1t2;
-                datar["Mã 1c"] = CurrentVJI.FlightCode1;
-                datar["Ngày 2c"] = CurrentVJI.DateFlight2t2;
-                datar["Mã 2c"] = CurrentVJI.FlightCode2;
-                datar["Email"] = CurrentVJI.Email;
-                datar["SĐT"] = CurrentVJI.Phone;
-                datar["Nhà mạng"] = CurrentVJI.PhoneNetwork;
-                datar["Xác nhận"] = CurrentVJI.Confirm;
-                datar["Thanh toán"] = CurrentVJI.PaymentStatus;
+                //DataRow datar = DataTable.NewRow();
+                if (DisplayStt)
+                    datar["STT"] = loop.ToString();
+                if (DisplayCustomeriscode)
+                    datar["Mã khách hàng"] = CurrentVJI.CustomerIsCode.ToString();
+                if (DisplayFirstname)
+                    datar["Họ"] = CurrentVJI.FirstName;
+                if (DisplayLastname)
+                    datar["(Tên đệm)Tên"] = CurrentVJI.LastName;
+                if (DisplayDateflight1t1)
+                    datar["Ngày đi"] = CurrentVJI.DateFlight1t1;
+                if (DisplayFlight1)
+                    datar["Mã đi"] = CurrentVJI.Flight1;
+                if (DisplayVerify1)
+                    datar["Xác nhận 1"] = CurrentVJI.Verify1;
+                if (DisplayDateflight2t1)
+                    datar["Ngày về"] = CurrentVJI.DateFlight2t1;
+                if (DisplayFlight2)
+                    datar["Mã về"] = CurrentVJI.Flight2;
+                if (DisplayVerify2)
+                    datar["Xác nhận 2"] = CurrentVJI.Verify2;
+                if (DisplaySeats)
+                    datar["Số ghế"] = CurrentVJI.Seats;
+                if (DisplayDateflight1t2)
+                    datar["Ngày 1 chiều"] = CurrentVJI.DateFlight1t2;
+                if (DisplayFlightcode1)
+                    datar["Mã 1 chiều"] = CurrentVJI.FlightCode1;
+                if (DisplayDateflight2t2)
+                    datar["Ngày 2 chiều"] = CurrentVJI.DateFlight2t2;
+                if (DisplayFlightcode2)
+                    datar["Mã 2 chiều"] = CurrentVJI.FlightCode2;
+                if (DisplayEmail)
+                    datar["Email"] = CurrentVJI.Email;
+                if (DisplayEmailstandardizedsuccess)
+                    datar["Email C.H thành công"] = CurrentVJI.EmailStandardizedSuccess;
+                if (DisplayEmailstandardized)
+                    datar["Email chuẩn hóa"] = CurrentVJI.EmailStandardized;
+                if (DisplayPhone)
+                    datar["SĐT"] = CurrentVJI.Phone;
+                if (DisplayPhonestandardizedsuccess)
+                    datar["SĐT C.H thành công"] = CurrentVJI.PhoneStandardizedSuccess;
+                if (DisplayPhonestandardized)
+                    datar["SĐT chuẩn hóa"] = CurrentVJI.PhoneStandardized;
+                if (DisplayPhonenetwork)
+                    datar["Nhà mạng"] = CurrentVJI.PhoneNetwork;
+                if (DisplayConfirm)
+                    datar["Xác nhận"] = CurrentVJI.Confirm;
+                if (DisplayPayment)
+                    datar["Thanh toán"] = CurrentVJI.PaymentStatus;
+
 
                 DataTable.Rows.Add(datar);
                 loop++;
                 ListVJIFiltered.Add(new VietJetInfomation { CustomerIsCode = CurrentVJI.CustomerIsCode, FirstName = CurrentVJI.FirstName, LastName = CurrentVJI.LastName, DateFlight1t1 = CurrentVJI.DateFlight1t1, Flight1 = CurrentVJI.Flight1, Verify1 = CurrentVJI.Verify1, DateFlight2t1 = CurrentVJI.DateFlight2t1, Flight2 = CurrentVJI.Flight2, Verify2 = CurrentVJI.Verify2, DateFlight1t2 = CurrentVJI.DateFlight1t2, FlightCode1 = CurrentVJI.FlightCode1, DateFlight2t2 = CurrentVJI.DateFlight2t2, Email = CurrentVJI.Email, EmailStandardizedSuccess = CurrentVJI.EmailStandardizedSuccess, EmailStandardized = CurrentVJI.EmailStandardized, Phone = CurrentVJI.Phone, PhoneStandardizedSuccess = CurrentVJI.PhoneStandardizedSuccess, PhoneStandardized = CurrentVJI.PhoneStandardized, PhoneNetwork = CurrentVJI.PhoneNetwork, Confirm = CurrentVJI.Confirm, PaymentStatus = CurrentVJI.PaymentStatus });
             }
+            //ListAllVJI = null;
             this.dataGridView1.DataSource = DataTable;
             dataGridView1.RowsDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
+            //dataGridView1.BindingContext = new BindingContext();
         }
 
         private void Button3_Click(object sender, EventArgs e)
@@ -461,34 +572,49 @@ namespace VJInfomationManager210220
             bool Email = checkBox25.Checked;
             bool Phone = checkBox26.Checked;
             bool PhoneNetwork = checkBox27.Checked;
-            for(int a = 0; a < ListVJIFiltered.Count; a++)
+            Invoke((MethodInvoker)(() =>
             {
-                Array.Resize(ref Export, Export.Length + 1);
-                if (FlightCode)
-                    Export[Export.Length - 1] += ListVJIFiltered[a].CustomerIsCode + "|";
-                if(FirstName)
-                    Export[Export.Length - 1] += ListVJIFiltered[a].FirstName + "|";
-                if (LastName)
-                    Export[Export.Length - 1] += ListVJIFiltered[a].LastName + "|";
-                if (Date)
-                    Export[Export.Length - 1] += ListVJIFiltered[a].DateFlight1t1 + "|";
-                if (Flight)
-                    Export[Export.Length - 1] += ListVJIFiltered[a].Flight1 + "|";
-                if (Date && ListVJIFiltered[a].DateFlight2t1!= null && ListVJIFiltered[a].DateFlight2t1 != "")
-                    Export[Export.Length - 1] += ListVJIFiltered[a].DateFlight2t1 + "|";
-                if (Flight && ListVJIFiltered[a].Flight2 != null && ListVJIFiltered[a].DateFlight2t1 != "")
-                    Export[Export.Length - 1] += ListVJIFiltered[a].Flight2 + "|";
-                if (Seats)
-                    Export[Export.Length - 1] += ListVJIFiltered[a].Seats + "|";
-                if(Email)
-                    Export[Export.Length - 1] += ListVJIFiltered[a].Email + "|";
-                if (Phone)
-                    Export[Export.Length - 1] += ListVJIFiltered[a].Phone + "|";
-                if (PhoneNetwork)
-                    Export[Export.Length - 1] += ListVJIFiltered[a].PhoneNetwork + "|";
-                Export[Export.Length - 1].Remove(Export[Export.Length - 1].Length - 1);
-            }
-            File.WriteAllLines(Application.StartupPath + "//Export.txt", Export);
+                this.button3.Text = "Đang tiến hành...";
+                Application.DoEvents();
+            }));
+            Thread t2 = new Thread(delegate ()
+            {
+                for (int a = 0; a < ListVJIFiltered.Count; a++)
+                {
+                    Array.Resize(ref Export, Export.Length + 1);
+                    if (FlightCode)
+                        Export[Export.Length - 1] += ListVJIFiltered[a].CustomerIsCode + "|";
+                    if (FirstName)
+                        Export[Export.Length - 1] += ListVJIFiltered[a].FirstName + "|";
+                    if (LastName)
+                        Export[Export.Length - 1] += ListVJIFiltered[a].LastName + "|";
+                    if (Date)
+                        Export[Export.Length - 1] += ListVJIFiltered[a].DateFlight1t1 + "|";
+                    if (Flight)
+                        Export[Export.Length - 1] += ListVJIFiltered[a].Flight1 + "|";
+                    if (Date && ListVJIFiltered[a].DateFlight2t1 != null && ListVJIFiltered[a].DateFlight2t1 != "")
+                        Export[Export.Length - 1] += ListVJIFiltered[a].DateFlight2t1 + "|";
+                    if (Flight && ListVJIFiltered[a].Flight2 != null && ListVJIFiltered[a].DateFlight2t1 != "")
+                        Export[Export.Length - 1] += ListVJIFiltered[a].Flight2 + "|";
+                    if (Seats)
+                        Export[Export.Length - 1] += ListVJIFiltered[a].Seats + "|";
+                    if (Email)
+                        Export[Export.Length - 1] += ListVJIFiltered[a].Email + "|";
+                    if (Phone)
+                        Export[Export.Length - 1] += ListVJIFiltered[a].Phone + "|";
+                    if (PhoneNetwork)
+                        Export[Export.Length - 1] += ListVJIFiltered[a].PhoneNetwork + "|";
+                    Export[Export.Length - 1].Remove(Export[Export.Length - 1].Length - 1);
+                }
+                File.WriteAllLines(Application.StartupPath + "//Export.txt", Export);
+                Export = new string[0];
+                Invoke((MethodInvoker)(() =>
+                {
+                    this.button3.Text = "Thành công " + ListVJIFiltered.Count.ToString();
+                    Application.DoEvents();
+                }));
+            });
+            t2.Start();
         }
         public void LoadOptions()
         {
@@ -525,6 +651,39 @@ namespace VJInfomationManager210220
                 checkBox17.Checked = Convert.ToBoolean(Options[27]);
                 checkBox18.Checked = Convert.ToBoolean(Options[28]);
                 checkBox19.Checked = Convert.ToBoolean(Options[29]);
+                checkBox20.Checked = Convert.ToBoolean(Options[30]);
+                checkBox21.Checked = Convert.ToBoolean(Options[31]);
+                checkBox22.Checked = Convert.ToBoolean(Options[32]);
+                checkBox23.Checked = Convert.ToBoolean(Options[33]);
+                checkBox24.Checked = Convert.ToBoolean(Options[34]);
+                checkBox25.Checked = Convert.ToBoolean(Options[35]);
+                checkBox26.Checked = Convert.ToBoolean(Options[36]);
+                checkBox27.Checked = Convert.ToBoolean(Options[37]);
+                checkBox28.Checked = Convert.ToBoolean(Options[38]);
+                checkBox29.Checked = Convert.ToBoolean(Options[39]);
+                checkBox30.Checked = Convert.ToBoolean(Options[40]);
+                checkBox31.Checked = Convert.ToBoolean(Options[41]);
+                checkBox32.Checked = Convert.ToBoolean(Options[42]);
+                checkBox33.Checked = Convert.ToBoolean(Options[43]);
+                checkBox34.Checked = Convert.ToBoolean(Options[44]);
+                checkBox35.Checked = Convert.ToBoolean(Options[45]);
+                checkBox36.Checked = Convert.ToBoolean(Options[46]);
+                checkBox37.Checked = Convert.ToBoolean(Options[47]);
+                checkBox38.Checked = Convert.ToBoolean(Options[48]);
+                checkBox39.Checked = Convert.ToBoolean(Options[49]);
+                checkBox40.Checked = Convert.ToBoolean(Options[50]);
+                checkBox41.Checked = Convert.ToBoolean(Options[51]);
+                checkBox42.Checked = Convert.ToBoolean(Options[52]);
+                checkBox43.Checked = Convert.ToBoolean(Options[53]);
+                checkBox44.Checked = Convert.ToBoolean(Options[54]);
+                checkBox45.Checked = Convert.ToBoolean(Options[55]);
+                checkBox46.Checked = Convert.ToBoolean(Options[56]);
+                checkBox47.Checked = Convert.ToBoolean(Options[57]);
+                checkBox48.Checked = Convert.ToBoolean(Options[58]);
+                checkBox49.Checked = Convert.ToBoolean(Options[59]);
+                checkBox50.Checked = Convert.ToBoolean(Options[60]);
+                checkBox51.Checked = Convert.ToBoolean(Options[61]);
+                textBox11.Text = Options[62];
             }
             catch { }
         }
@@ -534,7 +693,7 @@ namespace VJInfomationManager210220
             InputData.Database = this.textBox6.Text;
             InputData.UID = this.textBox7.Text;
             InputData.Password = this.textBox8.Text;
-            string[] Options = new string[30];
+            string[] Options = new string[63];
             Options[0] = Convert.ToString(InputData.MaxThread);
             Options[1] = Convert.ToString(checkBox1.Checked);
             Options[2] = Convert.ToString(checkBox2.Checked);
@@ -565,6 +724,39 @@ namespace VJInfomationManager210220
             Options[27] = Convert.ToString(checkBox17.Checked);
             Options[28] = Convert.ToString(checkBox18.Checked);
             Options[29] = Convert.ToString(checkBox19.Checked);
+            Options[30] = Convert.ToString(checkBox20.Checked);
+            Options[31] = Convert.ToString(checkBox21.Checked);
+            Options[32] = Convert.ToString(checkBox22.Checked);
+            Options[33] = Convert.ToString(checkBox23.Checked);
+            Options[34] = Convert.ToString(checkBox24.Checked);
+            Options[35] = Convert.ToString(checkBox25.Checked);
+            Options[36] = Convert.ToString(checkBox26.Checked);
+            Options[37] = Convert.ToString(checkBox27.Checked);
+            Options[38] = Convert.ToString(checkBox28.Checked);
+            Options[39] = Convert.ToString(checkBox29.Checked);
+            Options[40] = Convert.ToString(checkBox30.Checked);
+            Options[41] = Convert.ToString(checkBox31.Checked);
+            Options[42] = Convert.ToString(checkBox32.Checked);
+            Options[43] = Convert.ToString(checkBox33.Checked);
+            Options[44] = Convert.ToString(checkBox34.Checked);
+            Options[45] = Convert.ToString(checkBox35.Checked);
+            Options[46] = Convert.ToString(checkBox36.Checked);
+            Options[47] = Convert.ToString(checkBox37.Checked);
+            Options[48] = Convert.ToString(checkBox38.Checked);
+            Options[49] = Convert.ToString(checkBox39.Checked);
+            Options[50] = Convert.ToString(checkBox40.Checked);
+            Options[51] = Convert.ToString(checkBox41.Checked);
+            Options[52] = Convert.ToString(checkBox42.Checked);
+            Options[53] = Convert.ToString(checkBox43.Checked);
+            Options[54] = Convert.ToString(checkBox44.Checked);
+            Options[55] = Convert.ToString(checkBox45.Checked);
+            Options[56] = Convert.ToString(checkBox46.Checked);
+            Options[57] = Convert.ToString(checkBox47.Checked);
+            Options[58] = Convert.ToString(checkBox48.Checked);
+            Options[59] = Convert.ToString(checkBox49.Checked);
+            Options[60] = Convert.ToString(checkBox50.Checked);
+            Options[61] = Convert.ToString(checkBox51.Checked);
+            Options[62] = textBox11.Text;
             File.WriteAllLines(Application.StartupPath + "//option", Options);
         }
 
@@ -795,7 +987,18 @@ namespace VJInfomationManager210220
 
         private void Form1_SizeChanged(object sender, EventArgs e)
         {
-            this.dataGridView1.Width = this.Width - this.tabControl1.Width;
+            this.dataGridView1.Width = this.Width - this.tabControl1.Width - 15;
+            //dataGridView1.BindingContext = new BindingContext();
+        }
+
+        private void CheckBox41_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            this.dataGridView1.Width = this.Width - this.tabControl1.Width - 15;
         }
     }
     class InputData
