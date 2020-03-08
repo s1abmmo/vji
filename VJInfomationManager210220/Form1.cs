@@ -21,6 +21,7 @@ namespace VJInfomationManager210220
         {
             InitializeComponent();
             LoadOptions();
+            InputData.MaxThread = 50;
         }
 
         private void Button1_Click(object sender, EventArgs e)
@@ -134,13 +135,7 @@ namespace VJInfomationManager210220
         private void Button2_Click(object sender, EventArgs e)
         {
             SaveOptions();
-            //dataGridView1.Rows.Clear();
-            //dataGridView1.Dispose();
             dataGridView1.DataSource = null;
-            List<VietJetInfomation> ListAllVJI = new DataServer().LoadAllData();
-            List<VietJetInfomation2> ListAllVJI2 = new DataServer().LoadAllDataVJ2();
-            //ListVJIFiltered = null;
-            ListVJIFiltered = new List<VietJetInfomation>();
 
             bool DisplayStt = checkBox28.Checked;
             bool DisplayCustomeriscode = checkBox29.Checked;
@@ -166,8 +161,6 @@ namespace VJInfomationManager210220
             bool DisplayPhonenetwork = checkBox49.Checked;
             bool DisplayConfirm = checkBox50.Checked;
             bool DisplayPayment = checkBox51.Checked;
-
-
 
             var DataTable = new DataTable();
             if (DisplayStt)
@@ -219,35 +212,6 @@ namespace VJInfomationManager210220
             if (DisplayPayment)
                 DataTable.Columns.Add("Thanh toán");
 
-            //MessageBox.Show(ListAllVJI.Count.ToString() + " " + ListAllVJI2.Count.ToString());
-            //var VJIJoin = ListAllVJI.Join(ListAllVJI2, arg => arg.CustomerIsCode, arg => arg.CustomerIsCode, (first, second) => new { CustomerIsCode = first.CustomerIsCode, FirstName = first.FirstName, LastName = first.LastName, DateFlight1t1 = first.DateFlight1t1, Flight1 = first.Flight1, Verify1 = first.Verify1, DateFlight2t1 = first.DateFlight2t1, Flight2 = first.Flight2, Verify2 = first.Verify2, Seats = first.Seats, DateFlight1t2 = second.DateFlight1t2, FlightCode1 = second.FlightCode1, DateFlight2t2 = second.DateFlight2t2, FlightCode2 = second.FlightCode2, Email = second.Email, EmailStandardizedSuccess = second.EmailStandardizedSuccess, EmailStandardized = second.EmailStandardized, Phone = second.Phone, PhoneStandardizedSuccess = second.PhoneStandardizedSuccess, PhoneStandardized = second.PhoneStandardized, PhoneNetwork = second.PhoneNetwork, Confirm = second.Confirm, PaymentStatus = second.PaymentStatus });
-            for (int a = ListAllVJI2.Count-1; a > -1; a--)
-            {
-                int index = ListAllVJI.IndexOf(ListAllVJI.Where(p => p.CustomerIsCode == ListAllVJI2[a].CustomerIsCode).FirstOrDefault());
-                //MessageBox.Show(index.ToString() + " " + a.ToString());
-                if (index < 0)
-                    continue;
-                ListAllVJI[index].DateFlight1t2 = ListAllVJI2[a].DateFlight1t2;
-                ListAllVJI[index].FlightCode1 = ListAllVJI2[a].FlightCode1;
-                ListAllVJI[index].DateFlight2t2 = ListAllVJI2[a].DateFlight2t2;
-                ListAllVJI[index].FlightCode2 = ListAllVJI2[a].FlightCode2;
-                ListAllVJI[index].Email = ListAllVJI2[a].Email;
-                ListAllVJI[index].EmailStandardizedSuccess = ListAllVJI2[a].EmailStandardizedSuccess;
-                ListAllVJI[index].EmailStandardized = ListAllVJI2[a].EmailStandardized;
-                ListAllVJI[index].Phone = ListAllVJI2[a].Phone;
-                ListAllVJI[index].PhoneStandardizedSuccess = ListAllVJI2[a].PhoneStandardizedSuccess;
-                ListAllVJI[index].PhoneStandardized = ListAllVJI2[a].PhoneStandardized;
-                ListAllVJI[index].PhoneNetwork = ListAllVJI2[a].PhoneNetwork;
-                ListAllVJI[index].Confirm = ListAllVJI2[a].Confirm;
-                ListAllVJI[index].PaymentStatus = ListAllVJI2[a].PaymentStatus;
-                ListAllVJI2.Remove(ListAllVJI2[a]);
-            }
-            for (int a = 0; a < ListAllVJI2.Count; a++)
-                ListAllVJI.Add(new VietJetInfomation { CustomerIsCode = ListAllVJI2[a].CustomerIsCode, FirstName = ListAllVJI2[a].FirstName, LastName = ListAllVJI2[a].LastName, DateFlight1t2 = ListAllVJI2[a].DateFlight1t2, FlightCode1 = ListAllVJI2[a].FlightCode1, DateFlight2t2 = ListAllVJI2[a].DateFlight2t2, FlightCode2 = ListAllVJI2[a].FlightCode2, Email = ListAllVJI2[a].Email, EmailStandardizedSuccess = ListAllVJI2[a].EmailStandardizedSuccess, EmailStandardized = ListAllVJI2[a].EmailStandardized, Phone = ListAllVJI2[a].Phone, PhoneStandardizedSuccess = ListAllVJI2[a].PhoneStandardizedSuccess, PhoneStandardized = ListAllVJI2[a].PhoneStandardized, PhoneNetwork = ListAllVJI2[a].PhoneNetwork, Confirm = ListAllVJI2[a].Confirm, PaymentStatus = ListAllVJI2[a].PaymentStatus });
-
-            //ListAllVJI2 = null;
-
-            //MessageBox.Show(ListAllVJI2.Count.ToString());
             bool FirstNameCountryVietNam = checkBox1.Checked;
             string[] ListFirstNameCountryVietNam = File.ReadAllLines(Application.StartupPath + "//firstnamevn.txt");
 
@@ -257,7 +221,7 @@ namespace VJInfomationManager210220
             string FromTime = textBox1.Text;
             string ToTime = textBox2.Text;
 
-            bool Conf= checkBox14.Checked;
+            bool Conf = checkBox14.Checked;
             bool Canx = checkBox15.Checked;
 
             bool OneWayTrip = checkBox11.Checked;
@@ -271,14 +235,14 @@ namespace VJInfomationManager210220
             bool NoGetFirstName = checkBox16.Checked;
             string NoFirstNameGet = textBox9.Text;
 
-            bool NoGetLastName= checkBox17.Checked;
+            bool NoGetLastName = checkBox17.Checked;
             string NoLastNameGet = textBox10.Text;
 
             bool OnlyEmailStandardizedSuccess = checkBox18.Checked;
             bool OnlyPhoneStandardizedSuccess = checkBox19.Checked;
 
-            bool EmailBlackListChecked =checkBox20.Checked;
-            bool PhoneBlackListChecked =checkBox21.Checked;
+            bool EmailBlackListChecked = checkBox20.Checked;
+            bool PhoneBlackListChecked = checkBox21.Checked;
             string[] EmailBlackList = File.ReadAllLines(Application.StartupPath + "//emailblacklist.txt");
             string[] PhoneBlackList = File.ReadAllLines(Application.StartupPath + "//phoneblacklist.txt");
 
@@ -295,271 +259,548 @@ namespace VJInfomationManager210220
 
             int loop = 1;
 
-
-            for (int a = 0; a < ListAllVJI.Count; a++)
+            Thread t3 = new Thread(delegate ()
             {
-                VietJetInfomation CurrentVJI = ListAllVJI[a];
-                DataRow datar = DataTable.NewRow();
-                if (FirstNameCountryVietNam && !FirstNameOtherCountry)
+                Invoke((MethodInvoker)(() =>
                 {
-                    bool IsFirstNameVietNam = false;
-                    for (int b = 0; b < ListFirstNameCountryVietNam.Length; b++)
-                    {
-                        if (CurrentVJI.FirstName.ToLower() == ListFirstNameCountryVietNam[b].ToLower())
-                        {
-                            IsFirstNameVietNam = true;
-                            break;
-                        }
-                    }
-                    if (!IsFirstNameVietNam)
-                        continue;
-                }else if(!FirstNameCountryVietNam && FirstNameOtherCountry)
+                    this.button2.Text = "Đang tải dữ liệu...";
+                    Application.DoEvents();
+                }));
+                List<VietJetInfomation> ListAllVJI = new DataServer().LoadAllData();
+                List<VietJetInfomation2> ListAllVJI2 = new DataServer().LoadAllDataVJ2();
+                ListVJIFiltered = new List<VietJetInfomation>();
+                for (int a = ListAllVJI2.Count - 1; a > -1; a--)
                 {
-                    bool IsFirstNameVietNam = false;
-                    for (int b = 0; b < ListFirstNameCountryVietNam.Length; b++)
-                    {
-                        if (CurrentVJI.FirstName.ToLower() == ListFirstNameCountryVietNam[b].ToLower())
-                        {
-                            IsFirstNameVietNam = true;
-                            break;
-                        }
-                    }
-                    if (IsFirstNameVietNam)
+                    int index = ListAllVJI.IndexOf(ListAllVJI.Where(p => p.CustomerIsCode == ListAllVJI2[a].CustomerIsCode).FirstOrDefault());
+                    if (index < 0)
                         continue;
+                    ListAllVJI[index].DateFlight1t2 = ListAllVJI2[a].DateFlight1t2;
+                    ListAllVJI[index].FlightCode1 = ListAllVJI2[a].FlightCode1;
+                    ListAllVJI[index].DateFlight2t2 = ListAllVJI2[a].DateFlight2t2;
+                    ListAllVJI[index].FlightCode2 = ListAllVJI2[a].FlightCode2;
+                    ListAllVJI[index].Email = ListAllVJI2[a].Email;
+                    ListAllVJI[index].EmailStandardizedSuccess = ListAllVJI2[a].EmailStandardizedSuccess;
+                    ListAllVJI[index].EmailStandardized = ListAllVJI2[a].EmailStandardized;
+                    ListAllVJI[index].Phone = ListAllVJI2[a].Phone;
+                    ListAllVJI[index].PhoneStandardizedSuccess = ListAllVJI2[a].PhoneStandardizedSuccess;
+                    ListAllVJI[index].PhoneStandardized = ListAllVJI2[a].PhoneStandardized;
+                    ListAllVJI[index].PhoneNetwork = ListAllVJI2[a].PhoneNetwork;
+                    ListAllVJI[index].Confirm = ListAllVJI2[a].Confirm;
+                    ListAllVJI[index].PaymentStatus = ListAllVJI2[a].PaymentStatus;
+                    ListAllVJI2.Remove(ListAllVJI2[a]);
                 }
-                else if (FirstNameCountryVietNam && FirstNameOtherCountry){ }
-                else if (!FirstNameCountryVietNam && !FirstNameOtherCountry) { continue; }
+                for (int a = 0; a < ListAllVJI2.Count; a++)
+                    ListAllVJI.Add(new VietJetInfomation { CustomerIsCode = ListAllVJI2[a].CustomerIsCode, FirstName = ListAllVJI2[a].FirstName, LastName = ListAllVJI2[a].LastName, DateFlight1t2 = ListAllVJI2[a].DateFlight1t2, FlightCode1 = ListAllVJI2[a].FlightCode1, DateFlight2t2 = ListAllVJI2[a].DateFlight2t2, FlightCode2 = ListAllVJI2[a].FlightCode2, Email = ListAllVJI2[a].Email, EmailStandardizedSuccess = ListAllVJI2[a].EmailStandardizedSuccess, EmailStandardized = ListAllVJI2[a].EmailStandardized, Phone = ListAllVJI2[a].Phone, PhoneStandardizedSuccess = ListAllVJI2[a].PhoneStandardizedSuccess, PhoneStandardized = ListAllVJI2[a].PhoneStandardized, PhoneNetwork = ListAllVJI2[a].PhoneNetwork, Confirm = ListAllVJI2[a].Confirm, PaymentStatus = ListAllVJI2[a].PaymentStatus });
+
+                Invoke((MethodInvoker)(() =>
+                {
+                    this.button2.Text = "Họ,tên...";
+                    Application.DoEvents();
+                }));
+                for (int a = ListAllVJI.Count - 1; a > -1; a--)
+                {
+                    VietJetInfomation vji = ListAllVJI[a];
+                    if (FirstNameCountryVietNam && !FirstNameOtherCountry)
+                    {
+                        bool IsFirstNameVietNam = false;
+                        for (int b = 0; b < ListFirstNameCountryVietNam.Length; b++)
+                        {
+                            if (vji.FirstName.ToLower() == ListFirstNameCountryVietNam[b].ToLower())
+                            {
+                                IsFirstNameVietNam = true;
+                                break;
+                            }
+                        }
+                        if (!IsFirstNameVietNam)
+                            ListAllVJI.RemoveAt(a);
+                    }
+                    else if (!FirstNameCountryVietNam && FirstNameOtherCountry)
+                    {
+                        bool IsFirstNameVietNam = false;
+                        for (int b = 0; b < ListFirstNameCountryVietNam.Length; b++)
+                        {
+                            if (vji.FirstName.ToLower() == ListFirstNameCountryVietNam[b].ToLower())
+                            {
+                                IsFirstNameVietNam = true;
+                                break;
+                            }
+                        }
+                        if (IsFirstNameVietNam)
+                            ListAllVJI.RemoveAt(a);
+                    }
+                    else if (FirstNameCountryVietNam && FirstNameOtherCountry) { }
+                    else if (!FirstNameCountryVietNam && !FirstNameOtherCountry) { ListAllVJI.RemoveAt(a); }
+                }
 
                 if (TimeLineChecked)
                 {
-                    bool InTimeLine = false;
-                    try
+                    Invoke((MethodInvoker)(() =>
                     {
-                        if (DateTime.ParseExact(CurrentVJI.DateFlight1t1, "dd/MM/yyyy", CultureInfo.InvariantCulture) > DateTime.ParseExact(FromTime, "dd/MM/yyyy", CultureInfo.InvariantCulture) && DateTime.ParseExact(CurrentVJI.DateFlight1t1, "dd/MM/yyyy", CultureInfo.InvariantCulture) < DateTime.ParseExact(ToTime, "dd/MM/yyyy", CultureInfo.InvariantCulture))
-                        {
-                            InTimeLine = true;
-                        }
-                    }
-                    catch { }
-                    try {
-                        if (DateTime.ParseExact(CurrentVJI.DateFlight2t1, "dd/MM/yyyy", CultureInfo.InvariantCulture) > DateTime.ParseExact(FromTime, "dd/MM/yyyy", CultureInfo.InvariantCulture) && DateTime.ParseExact(CurrentVJI.DateFlight2t1, "dd/MM/yyyy", CultureInfo.InvariantCulture) < DateTime.ParseExact(ToTime, "dd/MM/yyyy", CultureInfo.InvariantCulture))
-                        {
-                            InTimeLine = true;
-                        }
-                    }
-                    catch { }
-                    if (!InTimeLine)
-                        continue;
-                }
-
-                if(Conf && !Canx)
-                {
-                    if (CurrentVJI.Verify1 != "CONF")
-                        continue;
-                }else if(!Conf && Canx)
-                {
-                    if (CurrentVJI.Verify1 != "CANX")
-                        continue;
-                }else if(Conf && Canx){ }
-                else if(!Conf && !Canx){ continue; }
-
-                if (OneWayTrip && !TwoWayTrip)
-                {
-                    if (CurrentVJI.DateFlight1t1 == "" || CurrentVJI.DateFlight1t1 == null)
-                        continue;
-                    if (CurrentVJI.DateFlight2t1 != "")
-                        if (CurrentVJI.DateFlight2t1 != null)
-                            continue;
-                }
-                else if (!OneWayTrip && TwoWayTrip)
-                {
-                    if (CurrentVJI.DateFlight2t1 == "" || CurrentVJI.DateFlight2t1 == null)
-                        continue;
-                }
-                else if (OneWayTrip && TwoWayTrip)
-                {
-                    //if (CurrentVJI.DateFlight1 == "" || CurrentVJI.DateFlight1 == null)
-                    //    if (CurrentVJI.DateFlight2 == "" || CurrentVJI.DateFlight2 == null)
-                    //        continue;
-                }
-                else if (!OneWayTrip && !TwoWayTrip)
-                {
-                    continue;
-                }
-
-                if (CodeFrom) {
-                    bool match = false;
-                    string[] ListCodeFrom1 = CodeFrom1.Split(',');
-                    for(int c = 0; c < ListCodeFrom1.Length; c++)
+                        this.button2.Text = " Mốc thời gian...";
+                        Application.DoEvents();
+                    }));
+                    string[] FromTimeSplit = FromTime.Split('/');
+                    string[] ToTimeSplit = ToTime.Split('/');
+                    for (int a = ListAllVJI.Count - 1; a>=  0; a--)
                     {
-                        if(Regex.IsMatch(CurrentVJI.Flight1, ListCodeFrom1[c] + " -") || Regex.IsMatch(CurrentVJI.Flight2, ListCodeFrom1[c] + " -"))
+                        if (a % 1000 == 0)
+                            Invoke((MethodInvoker)(() =>
+                            {
+                                this.button2.Text = " Mốc thời gian " + a.ToString();
+                                Application.DoEvents();
+                            }));
+                        VietJetInfomation vji = ListAllVJI[a];
+                        //try
+                        //{
+                        string[] CurrentTime1 = new string[0];
+                        if (vji.DateFlight1t1!=null)
+                            CurrentTime1 = vji.DateFlight1t1.Split('/');
+                        string[] CurrentTime2 = new string[0];
+                        if (vji.DateFlight2t1 != null)
+                            CurrentTime2 = vji.DateFlight2t1.Split('/');
+                        if (CurrentTime1.Length == 3 && Convert.ToInt32((CurrentTime1[2] + CurrentTime1[1] + CurrentTime1[0])) >= Convert.ToInt32((FromTimeSplit[2] + FromTimeSplit[1] + FromTimeSplit[0])) && Convert.ToInt32((CurrentTime1[2] + CurrentTime1[1] + CurrentTime1[0])) <= Convert.ToInt32(ToTimeSplit[2] + ToTimeSplit[1] + ToTimeSplit[0]))
                         {
-                            match = true;
-                            break;
+                            if (CurrentTime2.Length == 3 && Convert.ToInt32((CurrentTime2[2] + CurrentTime2[1] + CurrentTime2[0])) >= Convert.ToInt32((FromTimeSplit[2] + FromTimeSplit[1] + FromTimeSplit[0])) && Convert.ToInt32((CurrentTime2[2] + CurrentTime2[1] + CurrentTime2[0])) <= Convert.ToInt32(ToTimeSplit[2] + ToTimeSplit[1] + ToTimeSplit[0]))
+                            { }
+                            else ListAllVJI.RemoveAt(a);
                         }
+                        else ListAllVJI.RemoveAt(a);
+                        //}
+                        //catch { ListAllVJI.RemoveAt(a); }
                     }
-                    if (!match)
-                        continue;
                 }
+                //MessageBox.Show(ListAllVJI.Count.ToString());
+
+                Invoke((MethodInvoker)(() =>
+                {
+                    this.button2.Text = "CONF,CANX...";
+                    Application.DoEvents();
+                }));
+                for (int a = ListAllVJI.Count - 1; a >= 0; a--)
+                {
+                    VietJetInfomation vji = ListAllVJI[a];
+                    if (Conf && !Canx)
+                    {
+                        if (vji.Verify1 != "CONF")
+                            ListAllVJI.RemoveAt(a);
+                    }
+                    else if (!Conf && Canx)
+                    {
+                        if (vji.Verify1 != "CANX")
+                            ListAllVJI.RemoveAt(a);
+                    }
+                    else if (Conf && Canx) { }
+                    else if (!Conf && !Canx) { ListAllVJI.RemoveAt(a); }
+                }
+
+                Invoke((MethodInvoker)(() =>
+                {
+                    this.button2.Text = "1,2 chiều...";
+                    Application.DoEvents();
+                }));
+                for (int a = ListAllVJI.Count - 1; a > -1; a--)
+                {
+                    VietJetInfomation vji = ListAllVJI[a];
+                    if (OneWayTrip && !TwoWayTrip)
+                    {
+                        if (vji.DateFlight1t1 == "" || vji.DateFlight1t1 == null)
+                            ListAllVJI.RemoveAt(a);
+                        if (vji.DateFlight2t1 != "")
+                            if (vji.DateFlight2t1 != null)
+                                ListAllVJI.RemoveAt(a);
+                    }
+                    else if (!OneWayTrip && TwoWayTrip)
+                    {
+                        if (vji.DateFlight2t1 == "" || vji.DateFlight2t1 == null)
+                            ListAllVJI.RemoveAt(a);
+                    }
+                    else if (OneWayTrip && TwoWayTrip)
+                    {
+                        //if (CurrentVJI.DateFlight1 == "" || CurrentVJI.DateFlight1 == null)
+                        //    if (CurrentVJI.DateFlight2 == "" || CurrentVJI.DateFlight2 == null)
+                        //        continue;
+                    }
+                    else if (!OneWayTrip && !TwoWayTrip)
+                    {
+                        ListAllVJI.RemoveAt(a);
+                    }
+                }
+
+                if (CodeFrom)
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        this.button2.Text = "Đi từ...";
+                        Application.DoEvents();
+                    }));
+                    for (int a = ListAllVJI.Count - 1; a > -1; a--)
+                    {
+                        VietJetInfomation vji = ListAllVJI[a];
+                        bool match = false;
+                        string[] ListCodeFrom1 = CodeFrom1.Split(',');
+                        for (int c = 0; c < ListCodeFrom1.Length; c++)
+                        {
+                            if (vji.Flight1 != null && Regex.IsMatch(vji.Flight1, ListCodeFrom1[c] + " -"))
+                            {
+                                match = true;
+                                break;
+                            }else if(vji.Flight2 != null && Regex.IsMatch(vji.Flight2, ListCodeFrom1[c] + " -"))
+                            {
+                                match = true;
+                                break;
+                            }
+                        }
+                        if (!match)
+                            ListAllVJI.RemoveAt(a);
+                    }
+                }
+
                 if (CodeTo)
                 {
-                    bool match = false;
-                    string[] ListCodeTo1 = CodeTo1.Split(',');
-                    for (int c = 0; c < ListCodeTo1.Length; c++)
+                    Invoke((MethodInvoker)(() =>
                     {
-                        if (Regex.IsMatch(CurrentVJI.Flight1, "- " + ListCodeTo1[c]) || Regex.IsMatch(CurrentVJI.Flight2, "- " + ListCodeTo1[c]))
+                        this.button2.Text = "Đi tới...";
+                        Application.DoEvents();
+                    }));
+                    for (int a = ListAllVJI.Count - 1; a > -1; a--)
+                    {
+                        VietJetInfomation vji = ListAllVJI[a];
+                        bool match = false;
+                        string[] ListCodeTo1 = CodeTo1.Split(',');
+                        for (int c = 0; c < ListCodeTo1.Length; c++)
                         {
-                            match = true;
-                            break;
+                            if (vji.Flight2 != null && Regex.IsMatch(vji.Flight1, "- " + ListCodeTo1[c]))
+                            {
+                                match = true;
+                                break;
+                            }
+                            else if (vji.Flight2 != null && Regex.IsMatch(vji.Flight2, "- " + ListCodeTo1[c]))
+                            {
+                                match = true;
+                                break;
+                            }
                         }
+                        if (!match)
+                            ListAllVJI.RemoveAt(a);
                     }
-                    if (!match)
-                        continue;
                 }
 
                 if (NoGetFirstName)
-                    if (CurrentVJI.FirstName == NoFirstNameGet)
-                        continue;
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        this.button2.Text = "Không lấy họ...";
+                        Application.DoEvents();
+                    }));
+                    for (int a = ListAllVJI.Count - 1; a > -1; a--)
+                    {
+                        VietJetInfomation vji = ListAllVJI[a];
+                        if (vji.FirstName == NoFirstNameGet)
+                            ListAllVJI.RemoveAt(a);
+                    }
+                }
 
                 if (NoGetLastName)
-                    if (CurrentVJI.LastName != NoLastNameGet)
-                        continue;
-                string Email = CurrentVJI.Email;
-                if (OnlyEmailStandardizedSuccess)
-                    if (!Convert.ToBoolean(CurrentVJI.EmailStandardizedSuccess))
+                {
+                    Invoke((MethodInvoker)(() =>
                     {
-                        continue;
+                        this.button2.Text = "Không lấy tên...";
+                        Application.DoEvents();
+                    }));
+                    for (int a = ListAllVJI.Count - 1; a > -1; a--)
+                    {
+                        VietJetInfomation vji = ListAllVJI[a];
+                        if (vji.LastName != NoLastNameGet)
+                            ListAllVJI.RemoveAt(a);
                     }
-                    else Email = CurrentVJI.EmailStandardized;
+                }
 
-                string Phone = CurrentVJI.Phone;
-                if (OnlyPhoneStandardizedSuccess)
-                    if (!Convert.ToBoolean(CurrentVJI.PhoneStandardizedSuccess))
+                if (OnlyEmailStandardizedSuccess)
+                {
+                    Invoke((MethodInvoker)(() =>
                     {
-                        continue;
+                        this.button2.Text = "Chỉ lấy email C.H thành công...";
+                        Application.DoEvents();
+                    }));
+                    for (int a = ListAllVJI.Count - 1; a > -1; a--)
+                    {
+                        VietJetInfomation vji = ListAllVJI[a];
+                        if (!Convert.ToBoolean(vji.EmailStandardizedSuccess))
+                            ListAllVJI.RemoveAt(a);
                     }
-                    else Phone = CurrentVJI.PhoneStandardized;
+                }
+
+                if (OnlyPhoneStandardizedSuccess)
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        this.button2.Text = "Chỉ lấy SĐT C.H thành công...";
+                        Application.DoEvents();
+                    }));
+                    for (int a = ListAllVJI.Count - 1; a > -1; a--)
+                    {
+                        VietJetInfomation vji = ListAllVJI[a];
+                        if (!Convert.ToBoolean(vji.PhoneStandardizedSuccess))
+                            ListAllVJI.RemoveAt(a);
+                    }
+                }
 
                 if (EmailBlackListChecked)
                 {
-                    if (Convert.ToBoolean(CurrentVJI.EmailStandardizedSuccess))
+                    Invoke((MethodInvoker)(() =>
                     {
-                        bool IsBlackList = false;
-                        for (int d = 0; d < EmailBlackList.Length; d++)
+                        this.button2.Text = "Loại bỏ Email blacklist...";
+                        Application.DoEvents();
+                    }));
+                    for (int a = ListAllVJI.Count - 1; a > -1; a--)
+                    {
+                        VietJetInfomation vji = ListAllVJI[a];
+                        if (Convert.ToBoolean(vji.EmailStandardizedSuccess))
                         {
-                            if(CurrentVJI.EmailStandardized==EmailBlackList[d])
+                            bool IsBlackList = false;
+                            for (int d = 0; d < EmailBlackList.Length; d++)
                             {
-                                IsBlackList = true;
-                                break;
+                                if (vji.EmailStandardized == EmailBlackList[d])
+                                {
+                                    IsBlackList = true;
+                                    break;
+                                }
                             }
+                            if (IsBlackList)
+                                ListAllVJI.RemoveAt(a);
                         }
-                        if (IsBlackList)
-                            continue;
                     }
                 }
+
                 if (PhoneBlackListChecked)
-                    if (Convert.ToBoolean(CurrentVJI.PhoneStandardizedSuccess))
+                {
+                    Invoke((MethodInvoker)(() =>
                     {
-                        bool IsBlackList = false;
-                        for (int d = 0; d < PhoneBlackList.Length; d++)
+                        this.button2.Text = "Loại bỏ SĐT blacklist...";
+                        Application.DoEvents();
+                    }));
+                    for (int a = ListAllVJI.Count - 1; a > -1; a--)
+                    {
+                        VietJetInfomation vji = ListAllVJI[a];
+                        if (Convert.ToBoolean(vji.PhoneStandardizedSuccess))
                         {
-                            if (CurrentVJI.PhoneStandardized == PhoneBlackList[d])
+                            bool IsBlackList = false;
+                            for (int d = 0; d < PhoneBlackList.Length; d++)
                             {
-                                IsBlackList = true;
-                                break;
+                                if (vji.PhoneStandardized == PhoneBlackList[d])
+                                {
+                                    IsBlackList = true;
+                                    break;
+                                }
                             }
+                            if (IsBlackList)
+                                ListAllVJI.RemoveAt(a);
                         }
-                        if (IsBlackList)
-                            continue;
                     }
+                }
 
                 if (GetHaveEmail)
-                    if (CurrentVJI.Email == null || CurrentVJI.Email == "")
-                        continue;
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        this.button2.Text = "Chỉ lấy có Email...";
+                        Application.DoEvents();
+                    }));
+                    for (int a = ListAllVJI.Count - 1; a > -1; a--)
+                    {
+                        VietJetInfomation vji = ListAllVJI[a];
+                        if (vji.Email == null || vji.Email == "")
+                            ListAllVJI.RemoveAt(a);
+                    }
+                }
 
-                if(GetHavePhone)
-                    if (CurrentVJI.Phone == null || CurrentVJI.Phone == "")
-                        continue;
+                if (GetHavePhone)
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        this.button2.Text = "Chỉ lấy có SĐT...";
+                        Application.DoEvents();
+                    }));
+                    for (int a = ListAllVJI.Count - 1; a > -1; a--)
+                    {
+                        VietJetInfomation vji = ListAllVJI[a];
+                        if (vji.Phone == null || vji.Phone == "")
+                            ListAllVJI.RemoveAt(a);
+                    }
+                }
 
                 if (OnlyPhoneNetwork)
-                    if (CurrentVJI.PhoneNetwork != PhoneNetWork)
-                        continue;
-                //if (OnlyEmailLoop)
-                //{
-                //    if (Convert.ToBoolean(CurrentVJI.EmailStandardizedSuccess))
-                //        if (ListAllVJI.Where(p => p.EmailStandardized == CurrentVJI.EmailStandardized).Count() < EmailLoop) ;
-                //}
-                //if (OnlyPhoneLoop)
-                //{
-                //    //if (Convert.ToBoolean(CurrentVJI.PhoneStandardizedSuccess))
-                //    if (ListAllVJI.Where(p => p.FirstName == CurrentVJI.FirstName).Count() >= PhoneLoop) ;
-                //    MessageBox.Show(ListAllVJI.GroupBy(item => item.FirstName).Where(item => item.Count() > 1).Sum(item => item.Count()).ToString());
-                //}
-                
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        this.button2.Text = "Chỉ lấy nhà mạng...";
+                        Application.DoEvents();
+                    }));
+                    for (int a = ListAllVJI.Count - 1; a > -1; a--)
+                    {
+                        VietJetInfomation vji = ListAllVJI[a];
+                        if (vji.PhoneNetwork != PhoneNetWork)
+                            ListAllVJI.RemoveAt(a);
+                    }
+                }
 
-                //dataGridView1.Rows.Add(loop.ToString(), CurrentVJI.CustomerIsCode, CurrentVJI.FirstName, CurrentVJI.LastName, CurrentVJI.DateFlight1t1, CurrentVJI.Flight1, CurrentVJI.Verify1, CurrentVJI.DateFlight2t1, CurrentVJI.Flight2, CurrentVJI.Verify2, CurrentVJI.Seats, CurrentVJI.DateFlight1t2 + " " + CurrentVJI.FlightCode1, CurrentVJI.DateFlight2t2 + " " + CurrentVJI.FlightCode2, Email, Phone, CurrentVJI.PhoneNetwork, CurrentVJI.Confirm, CurrentVJI.PaymentStatus);
-                //DataRow datar = DataTable.NewRow();
-                if (DisplayStt)
-                    datar["STT"] = loop.ToString();
-                if (DisplayCustomeriscode)
-                    datar["Mã khách hàng"] = CurrentVJI.CustomerIsCode.ToString();
-                if (DisplayFirstname)
-                    datar["Họ"] = CurrentVJI.FirstName;
-                if (DisplayLastname)
-                    datar["(Tên đệm)Tên"] = CurrentVJI.LastName;
-                if (DisplayDateflight1t1)
-                    datar["Ngày đi"] = CurrentVJI.DateFlight1t1;
-                if (DisplayFlight1)
-                    datar["Mã đi"] = CurrentVJI.Flight1;
-                if (DisplayVerify1)
-                    datar["Xác nhận 1"] = CurrentVJI.Verify1;
-                if (DisplayDateflight2t1)
-                    datar["Ngày về"] = CurrentVJI.DateFlight2t1;
-                if (DisplayFlight2)
-                    datar["Mã về"] = CurrentVJI.Flight2;
-                if (DisplayVerify2)
-                    datar["Xác nhận 2"] = CurrentVJI.Verify2;
-                if (DisplaySeats)
-                    datar["Số ghế"] = CurrentVJI.Seats;
-                if (DisplayDateflight1t2)
-                    datar["Ngày 1 chiều"] = CurrentVJI.DateFlight1t2;
-                if (DisplayFlightcode1)
-                    datar["Mã 1 chiều"] = CurrentVJI.FlightCode1;
-                if (DisplayDateflight2t2)
-                    datar["Ngày 2 chiều"] = CurrentVJI.DateFlight2t2;
-                if (DisplayFlightcode2)
-                    datar["Mã 2 chiều"] = CurrentVJI.FlightCode2;
-                if (DisplayEmail)
-                    datar["Email"] = CurrentVJI.Email;
-                if (DisplayEmailstandardizedsuccess)
-                    datar["Email C.H thành công"] = CurrentVJI.EmailStandardizedSuccess;
-                if (DisplayEmailstandardized)
-                    datar["Email chuẩn hóa"] = CurrentVJI.EmailStandardized;
-                if (DisplayPhone)
-                    datar["SĐT"] = CurrentVJI.Phone;
-                if (DisplayPhonestandardizedsuccess)
-                    datar["SĐT C.H thành công"] = CurrentVJI.PhoneStandardizedSuccess;
-                if (DisplayPhonestandardized)
-                    datar["SĐT chuẩn hóa"] = CurrentVJI.PhoneStandardized;
-                if (DisplayPhonenetwork)
-                    datar["Nhà mạng"] = CurrentVJI.PhoneNetwork;
-                if (DisplayConfirm)
-                    datar["Xác nhận"] = CurrentVJI.Confirm;
-                if (DisplayPayment)
-                    datar["Thanh toán"] = CurrentVJI.PaymentStatus;
+                if (OnlyEmailLoop)
+                {
 
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        this.button2.Text = "Lấy email đại lý...";
+                        Application.DoEvents();
+                    }));
 
-                DataTable.Rows.Add(datar);
-                loop++;
-                ListVJIFiltered.Add(new VietJetInfomation { CustomerIsCode = CurrentVJI.CustomerIsCode, FirstName = CurrentVJI.FirstName, LastName = CurrentVJI.LastName, DateFlight1t1 = CurrentVJI.DateFlight1t1, Flight1 = CurrentVJI.Flight1, Verify1 = CurrentVJI.Verify1, DateFlight2t1 = CurrentVJI.DateFlight2t1, Flight2 = CurrentVJI.Flight2, Verify2 = CurrentVJI.Verify2, DateFlight1t2 = CurrentVJI.DateFlight1t2, FlightCode1 = CurrentVJI.FlightCode1, DateFlight2t2 = CurrentVJI.DateFlight2t2, Email = CurrentVJI.Email, EmailStandardizedSuccess = CurrentVJI.EmailStandardizedSuccess, EmailStandardized = CurrentVJI.EmailStandardized, Phone = CurrentVJI.Phone, PhoneStandardizedSuccess = CurrentVJI.PhoneStandardizedSuccess, PhoneStandardized = CurrentVJI.PhoneStandardized, PhoneNetwork = CurrentVJI.PhoneNetwork, Confirm = CurrentVJI.Confirm, PaymentStatus = CurrentVJI.PaymentStatus });
-            }
-            //ListAllVJI = null;
-            this.dataGridView1.DataSource = DataTable;
-            dataGridView1.RowsDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            //dataGridView1.BindingContext = new BindingContext();
+                    for (int a = ListAllVJI.Count - 1; a > -1; a--)
+                        if (!Convert.ToBoolean(ListAllVJI[a].EmailStandardizedSuccess))
+                            ListAllVJI.RemoveAt(a);
+                    ListAllVJI.Sort((x, y) => x.EmailStandardized.CompareTo(y.EmailStandardized));
+                    for (int a = ListAllVJI.Count - 1; a > -1;)
+                    {
+                        if (a % 1000 == 0)
+                            Invoke((MethodInvoker)(() =>
+                            {
+                                this.button2.Text = "Lấy email đại lý " + a.ToString();
+                                Application.DoEvents();
+                            }));
+                        VietJetInfomation vji = ListAllVJI[a];
+                        int c = 0;
+                        //MessageBox.Show(vji.FirstName);
+                        for (int b = a; b >= 0;)
+                        {
+                            if (ListAllVJI[b].EmailStandardized == vji.EmailStandardized)
+                                c++;
+                            else break;
+                            b--;
+                        }
+                        //MessageBox.Show("Lap " + c.ToString());
+                        if (c < EmailLoop)
+                        {
+                            for (int b = a; b > (a - c);)
+                            {
+                                //MessageBox.Show(a.ToString() + "Xoa dong" + b.ToString());
+                                ListAllVJI.RemoveAt(b);
+                                b--;
+                            }
+                        }
+                        a = a - c;
+                    }
+                }
+
+                //ListAllVJI.Sort((x, y) => x.FirstName.CompareTo(y.FirstName));
+                if (OnlyPhoneLoop)
+                {
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        this.button2.Text = "Lấy SĐT đại lý...";
+                        Application.DoEvents();
+                    }));
+                    for (int a = ListAllVJI.Count - 1; a >= 0;a--)
+                        if (!Convert.ToBoolean(ListAllVJI[a].PhoneStandardizedSuccess))
+                            ListAllVJI.RemoveAt(a);
+                    ListAllVJI.Sort((x, y) => x.PhoneStandardized.CompareTo(y.PhoneStandardized));
+                    //MessageBox.Show(ListAllVJI.Count.ToString());
+                    for (int a = ListAllVJI.Count - 1; a >= 0;)
+                    {
+                        VietJetInfomation vji = ListAllVJI[a];
+
+                        if (a % 1000 == 0)
+                            Invoke((MethodInvoker)(() =>
+                            {
+                                this.button2.Text = "Lấy SĐT đại lý " + a.ToString();
+                                Application.DoEvents();
+                            }));
+
+                        int c = 0;
+                        for (int b = a; b >= 0; )
+                        {
+                            if (ListAllVJI[b].PhoneStandardized == vji.PhoneStandardized)
+                                c++;
+                            else break;
+                            b--;
+                        }
+                        if (c < PhoneLoop)
+                        {
+                            for (int b = a; b > (a - c); )
+                            {
+                                ListAllVJI.RemoveAt(b);
+                                b--;
+                            }
+                        }
+                        a = a - c;
+                    }
+                }
+
+                for (int a = 0; a < ListAllVJI.Count; a++)
+                {
+                    VietJetInfomation vji = ListAllVJI[a];
+                    DataRow datar = DataTable.NewRow();
+                    if (DisplayStt)
+                        datar["STT"] = loop;
+                    loop++;
+                    if (DisplayCustomeriscode)
+                        datar["Mã khách hàng"] = vji.CustomerIsCode.ToString();
+                    if (DisplayFirstname)
+                        datar["Họ"] = vji.FirstName;
+                    if (DisplayLastname)
+                        datar["(Tên đệm)Tên"] = vji.LastName;
+                    if (DisplayDateflight1t1)
+                        datar["Ngày đi"] = vji.DateFlight1t1;
+                    if (DisplayFlight1)
+                        datar["Mã đi"] = vji.Flight1;
+                    if (DisplayVerify1)
+                        datar["Xác nhận 1"] = vji.Verify1;
+                    if (DisplayDateflight2t1)
+                        datar["Ngày về"] = vji.DateFlight2t1;
+                    if (DisplayFlight2)
+                        datar["Mã về"] = vji.Flight2;
+                    if (DisplayVerify2)
+                        datar["Xác nhận 2"] = vji.Verify2;
+                    if (DisplaySeats)
+                        datar["Số ghế"] = vji.Seats;
+                    if (DisplayDateflight1t2)
+                        datar["Ngày 1 chiều"] = vji.DateFlight1t2;
+                    if (DisplayFlightcode1)
+                        datar["Mã 1 chiều"] = vji.FlightCode1;
+                    if (DisplayDateflight2t2)
+                        datar["Ngày 2 chiều"] = vji.DateFlight2t2;
+                    if (DisplayFlightcode2)
+                        datar["Mã 2 chiều"] = vji.FlightCode2;
+                    if (DisplayEmail)
+                        datar["Email"] = vji.Email;
+                    if (DisplayEmailstandardizedsuccess)
+                        datar["Email C.H thành công"] = vji.EmailStandardizedSuccess;
+                    if (DisplayEmailstandardized)
+                        datar["Email chuẩn hóa"] = vji.EmailStandardized;
+                    if (DisplayPhone)
+                        datar["SĐT"] = vji.Phone;
+                    if (DisplayPhonestandardizedsuccess)
+                        datar["SĐT C.H thành công"] = vji.PhoneStandardizedSuccess;
+                    if (DisplayPhonestandardized)
+                        datar["SĐT chuẩn hóa"] = vji.PhoneStandardized;
+                    if (DisplayPhonenetwork)
+                        datar["Nhà mạng"] = vji.PhoneNetwork;
+                    if (DisplayConfirm)
+                        datar["Xác nhận"] = vji.Confirm;
+                    if (DisplayPayment)
+                        datar["Thanh toán"] = vji.PaymentStatus;
+                    DataTable.Rows.Add(datar);
+                    ListVJIFiltered.Add(new VietJetInfomation { CustomerIsCode = vji.CustomerIsCode, FirstName = vji.FirstName, LastName = vji.LastName, DateFlight1t1 = vji.DateFlight1t1, Flight1 = vji.Flight1, Verify1 = vji.Verify1, DateFlight2t1 = vji.DateFlight2t1, Flight2 = vji.Flight2, Verify2 = vji.Verify2, DateFlight1t2 = vji.DateFlight1t2, FlightCode1 = vji.FlightCode1, DateFlight2t2 = vji.DateFlight2t2, Email = vji.Email, EmailStandardizedSuccess = vji.EmailStandardizedSuccess, EmailStandardized = vji.EmailStandardized, Phone = vji.Phone, PhoneStandardizedSuccess = vji.PhoneStandardizedSuccess, PhoneStandardized = vji.PhoneStandardized, PhoneNetwork = vji.PhoneNetwork, Confirm = vji.Confirm, PaymentStatus = vji.PaymentStatus });
+                }
+                Invoke((MethodInvoker)(() =>
+                    {
+                        this.dataGridView1.DataSource = DataTable;
+                        dataGridView1.RowsDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                        this.button2.Text = "Hoàn thành " + DataTable.Rows.Count.ToString();
+                        Application.DoEvents();
+                    }));
+            });
+            t3.Start();
         }
 
-        private void Button3_Click(object sender, EventArgs e)
+    private void Button3_Click(object sender, EventArgs e)
         {
             SaveOptions();
             string[] Export = new string[0];
