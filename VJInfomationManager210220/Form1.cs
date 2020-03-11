@@ -13,7 +13,7 @@ using System.Text.RegularExpressions;
 using MySql.Data.MySqlClient;
 using System.Globalization;
 
-//Version 1.8
+//Version 2.0
 
 namespace VJInfomationManager210220
 {
