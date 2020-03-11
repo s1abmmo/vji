@@ -20,3 +20,4 @@ F:\Project\vji\VJInfomationManager210220\obj\Release\VJInfomationManager210220.c
 F:\Project\vji\VJInfomationManager210220\obj\Release\VJInfomationManager210220.csproj.CopyComplete
 F:\Project\vji\VJInfomationManager210220\obj\Release\VJInfomationManager210220.exe
 F:\Project\vji\VJInfomationManager210220\obj\Release\VJInfomationManager210220.pdb
+F:\Project\vji\VJInfomationManager210220\obj\Release\VJInfomationManager210220.csprojAssemblyReference.cache

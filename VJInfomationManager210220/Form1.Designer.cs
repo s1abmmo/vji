@@ -146,7 +146,7 @@
             // 
             this.button1.Location = new System.Drawing.Point(12, 6);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(188, 33);
+            this.button1.Size = new System.Drawing.Size(188, 47);
             this.button1.TabIndex = 1;
             this.button1.Text = "Nhập dữ liệu vào database";
             this.button1.UseVisualStyleBackColor = true;
@@ -624,7 +624,7 @@
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Controls.Add(this.textBox5);
             this.groupBox3.Controls.Add(this.label3);
-            this.groupBox3.Location = new System.Drawing.Point(6, 45);
+            this.groupBox3.Location = new System.Drawing.Point(6, 110);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(200, 118);
             this.groupBox3.TabIndex = 4;
@@ -724,9 +724,9 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(12, 208);
+            this.button5.Location = new System.Drawing.Point(12, 59);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(188, 33);
+            this.button5.Size = new System.Drawing.Size(188, 47);
             this.button5.TabIndex = 6;
             this.button5.Text = "Nhập dữ liệu 2";
             this.button5.UseVisualStyleBackColor = true;
@@ -734,7 +734,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(12, 169);
+            this.button4.Location = new System.Drawing.Point(12, 234);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(188, 33);
             this.button4.TabIndex = 5;

@@ -13,6 +13,8 @@ using System.Text.RegularExpressions;
 using MySql.Data.MySqlClient;
 using System.Globalization;
 
+//Version 1.8
+
 namespace VJInfomationManager210220
 {
     public partial class Form1 : Form
@@ -21,17 +23,13 @@ namespace VJInfomationManager210220
         {
             InitializeComponent();
             LoadOptions();
-            InputData.MaxThread = 50;
         }
 
         private void Button1_Click(object sender, EventArgs e)
         {
             SaveOptions();
-            InputData.Server = this.textBox5.Text;
-            InputData.Database = this.textBox6.Text;
-            InputData.UID = this.textBox7.Text;
-            InputData.Password = this.textBox8.Text;
             new DataServer().CreateTable();
+
             OpenFileDialog open = new OpenFileDialog();
             open.Filter = "txt file|*.txt";
             open.ShowDialog();
@@ -44,91 +42,155 @@ namespace VJInfomationManager210220
             {
                 MessageBox.Show("File lỗi!");
             }
-            int currentthread = 1;
-            int Success = 0;
-            int Failed = 0;
+
+            int ca = 0;
+            int SuccessTimes = 0;
+            int FailedTimes = 0;
+            //bool t1Running = true;
+
             Thread t1 = new Thread(delegate ()
             {
+
+                //int Duplicate = 0;
+                List<VietJetInfomation1> ListVJI1 = new List<VietJetInfomation1>();
+
                 for (int a = 0; a < inputlist.Length; a++)
                 {
-                    try
+                    ca = a;
+
+                    bool Success = true;
+
+                    //Kiểm tra null, độ dài khi split |
+                    string[] currentinfo = new string[0];
+                    if (inputlist[a] != null || inputlist[a].Split('|').Length >= 4)
+                        currentinfo = inputlist[a].Split('|');
+
+                    //Nếu mã khách hàng null,"" thì bỏ qua
+                    string customeriscode = null;
+                    if (currentinfo[0] == null || currentinfo[0] == "")
                     {
-                        Invoke((MethodInvoker)(() =>
+                        FailedTimes++;
+                        continue;
+                    }
+                    customeriscode = currentinfo[0];
+
+                    //Nếu họ,tên null và split | !=2 thì bỏ qua
+                    string firstname = null;
+                    string lastname = "";
+                    if (currentinfo[1] != null && currentinfo[1] != "" && currentinfo[1].Split(',').Length == 2)
+                    {
+                        string[] FirstLastName = currentinfo[1].Split(',');
+                        //Nếu họ null
+                        if (FirstLastName[0] == null || FirstLastName[0] == "")
                         {
-                            this.button1.Text = (a + 1).ToString() + "/" + inputlist.Length.ToString() + " Success:" + Success.ToString() + " Failed:" + Failed;
-                            Application.DoEvents();
-                        }));
-                        while (true)
-                        {
-                            if (currentthread < InputData.MaxThread)
-                                break;
-                            Thread.Sleep(250);
+                            FailedTimes++;
+                            continue;
                         }
-                        currentthread++;
-                        string[] currentinfo = inputlist[a].Split('|');
-                        string flightcode = currentinfo[0];
-                        string firstname = currentinfo[1].Split(',')[0].Replace(" ", "");
-                        string lastname = "";
-                        string[] handlelastname = currentinfo[1].Split(',')[1].Split(' ');
-                        for (int b = 0; b < handlelastname.Length; b++)
+                        firstname = FirstLastName[0].Replace(" ", "");
+
+
+                        if (FirstLastName[1] == null || FirstLastName[1] == "")
                         {
-                            handlelastname[b]=handlelastname[b].Replace(" ", "");
-                            if (handlelastname[b]!=null && handlelastname[b]!="")
+                            FailedTimes++;
+                            continue;
+                        }
+
+                        string[] HandleLastName = FirstLastName[1].Split(' ');
+                        for (int b = 0; b < HandleLastName.Length; b++)
+                        {
+                            HandleLastName[b] = HandleLastName[b].Replace(" ", "");
+                            if (HandleLastName[b] != null && HandleLastName[b] != "")
                             {
-                                lastname += handlelastname[b];
-                                if (b + 1 != handlelastname.Length)
+                                lastname += HandleLastName[b];
+                                if (b + 1 != HandleLastName.Length)
                                     lastname += " ";
                             }
                         }
-
-                        MatchCollection coll = Regex.Matches(currentinfo[2], @"(\d{2}/\d{2}/\d{4}) ([A-Z]{1,3} - [A-Z]{1,3}) ([A-Z]{1,5})");
-                        string dateflight1 = coll[0].Groups[1].Value;
-                        string flight1 = coll[0].Groups[2].Value;
-                        string flightcode1= coll[0].Groups[3].Value;
-
-                        string dateflight2 = "";
-                        string flight2 = "";
-                        string flightcode2 = "";
-                        string seats = "";
-                        try
-                        {
-                            coll = Regex.Matches(currentinfo[3], @"(\d{2}/\d{2}/\d{4}) ([A-Z]{1,3} - [A-Z]{1,3}) ([A-Z]{1,5})");
-                            dateflight2 = coll[0].Groups[1].Value;
-                            flight2 = coll[0].Groups[2].Value;
-                            flightcode2 = coll[0].Groups[3].Value;
-                            seats = currentinfo[4];
-                        }
-                        catch
-                        {
-                            seats = currentinfo[3];
-                        }
-                        Thread t2 = new Thread(delegate ()
-                        {
-                            try
-                            {
-                                int lastinsertedid = new DataServer().InsertNewData(flightcode, firstname, lastname, dateflight1, flight1, flightcode1, dateflight2, flight2, flightcode2, seats);
-                                Success++;
-                            }
-                            catch { Failed++; }
-                            currentthread--;
-                        });
-                        t2.Start();
                     }
-                    catch { }
+                    else
+                    {
+                        FailedTimes++;
+                        continue;
+                    }
+
+                    //Nếu định dạng ngày,mã bay,xác nhận không đúng định dạng -> skip
+                    string dateflight1 = "";
+                    string flight1 = "";
+                    string flightcode1 = "";
+                    MatchCollection coll = Regex.Matches(currentinfo[2], "(\\d{2}/\\d{2}/\\d{4}) ([A-Z]{1,3} - [A-Z]{1,3}) ([A-Z]{1,5})");
+                    try
+                    {
+                        if (coll.Count < 1 || coll[0].Groups.Count < 4)
+                        {
+                            FailedTimes++;
+                            continue;
+                        }
+                        dateflight1 = coll[0].Groups[1].Value;
+                        flight1 = coll[0].Groups[2].Value;
+                        flightcode1 = coll[0].Groups[3].Value;
+                    }
+                    catch (Exception d)
+                    {
+                        /*MessageBox.Show(a.ToString() + " _ " + d.Message + " _ " + inputlist[a]);*/
+                        FailedTimes++;
+                        continue;
+                    }
+
+                    string dateflight2 = "";
+                    string flight2 = "";
+                    string flightcode2 = "";
+                    string seats = "";
+
+                    coll = Regex.Matches(currentinfo[3], @"(\d{2}/\d{2}/\d{4}) ([A-Z]{1,3} - [A-Z]{1,3}) ([A-Z]{1,5})");
+                    if (coll.Count > 0 && coll[0].Groups.Count >= 4)
+                    {
+                        dateflight2 = coll[0].Groups[1].Value;
+                        flight2 = coll[0].Groups[2].Value;
+                        flightcode2 = coll[0].Groups[3].Value;
+                        if (currentinfo[4] == null || currentinfo[4] == "")
+                        {
+                            FailedTimes++;
+                            continue;
+                        }
+                        seats = currentinfo[4];
+                    }
+                    else
+                    {
+                        if (currentinfo[3] == null || currentinfo[3] == "")
+                        {
+                            FailedTimes++;
+                            continue;
+                        }
+                        seats = currentinfo[3];
+                    }
+                    SuccessTimes++;
+                    ListVJI1.Add(new VietJetInfomation1 { CustomerIsCode = customeriscode, FirstName = firstname, LastName = lastname, DateFlight1 = dateflight1, Flight1 = flight1, FlightCode1 = flightcode1, DateFlight2 = dateflight2, Flight2 = flight2, FlightCode2 = flightcode2, Seats = seats });
+
+                }
+                new DataServer().InsertNewData(ListVJI1);
+            });
+            t1.Start();
+
+            Thread t2 = new Thread(delegate ()
+            {
+                int countseconds = 0;
+                while (t1.IsAlive)
+                {
+                    countseconds++;
+                    Thread.Sleep(100);
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        this.button1.Text = ca.ToString() + "/" + inputlist.Length.ToString() + " " + (countseconds / 10).ToString()+"s" + Environment.NewLine + " OK:" + SuccessTimes.ToString() + " Failed:" + FailedTimes;
+                        Application.DoEvents();
+                    }));
                 }
                 Invoke((MethodInvoker)(() =>
                 {
-                    this.button1.Text = "Hoàn thành Success:" + Success.ToString() + " Failed:" + Failed;
+                    this.button1.Text = (countseconds / 10).ToString() + "s" + " Hoàn thành OK:" + SuccessTimes.ToString() + Environment.NewLine + " Lỗi:" + FailedTimes;
                     Application.DoEvents();
                 }));
-                //Thread.Sleep(1000);
-                //Invoke((MethodInvoker)(() =>
-                //{
-                //    this.button1.Text = "Nhập dữ liệu vào database";
-                //    Application.DoEvents();
-                //}));
             });
-            t1.Start();
+            t2.Start();
 
         }
         List<VietJetInfomation> ListVJIFiltered;
@@ -266,8 +328,18 @@ namespace VJInfomationManager210220
                     this.button2.Text = "Đang tải dữ liệu...";
                     Application.DoEvents();
                 }));
-                List<VietJetInfomation> ListAllVJI = new DataServer().LoadAllData();
-                List<VietJetInfomation2> ListAllVJI2 = new DataServer().LoadAllDataVJ2();
+                List<VietJetInfomation> ListAllVJI = new List<VietJetInfomation>();
+                try
+                {
+                    ListAllVJI = new DataServer().LoadAllData();
+                }
+                catch { }
+                List<VietJetInfomation2> ListAllVJI2 = new List<VietJetInfomation2>();
+                try
+                {
+                    ListAllVJI2 = new DataServer().LoadAllDataVJ2();
+                }
+                catch { }
                 ListVJIFiltered = new List<VietJetInfomation>();
                 for (int a = ListAllVJI2.Count - 1; a > -1; a--)
                 {
@@ -862,7 +934,7 @@ namespace VJInfomationManager210220
             try
             {
                 string[] Options = File.ReadAllLines(Application.StartupPath + "//option");
-                InputData.MaxThread = Convert.ToInt32(Options[0]);
+                //InputData.MaxThread = Convert.ToInt32(Options[0]);
                 checkBox1.Checked = Convert.ToBoolean(Options[1]);
                 checkBox2.Checked = Convert.ToBoolean(Options[2]);
                 checkBox3.Checked = Convert.ToBoolean(Options[3]);
@@ -935,7 +1007,7 @@ namespace VJInfomationManager210220
             InputData.UID = this.textBox7.Text;
             InputData.Password = this.textBox8.Text;
             string[] Options = new string[63];
-            Options[0] = Convert.ToString(InputData.MaxThread);
+            //Options[0] = Convert.ToString(InputData.MaxThread);
             Options[1] = Convert.ToString(checkBox1.Checked);
             Options[2] = Convert.ToString(checkBox2.Checked);
             Options[3] = Convert.ToString(checkBox3.Checked);
@@ -1014,13 +1086,9 @@ namespace VJInfomationManager210220
         private void Button5_Click(object sender, EventArgs e)
         {
             SaveOptions();
-            InputData.Server = this.textBox5.Text;
-            InputData.Database = this.textBox6.Text;
-            InputData.UID = this.textBox7.Text;
-            InputData.Password = this.textBox8.Text;
-            //bool EmailStandardized = checkBox18.Checked;
-            //bool PhoneStandardized = checkBox19.Checked;
+
             new DataServer().CreateTable2();
+
             OpenFileDialog open = new OpenFileDialog();
             open.Filter = "txt file|*.txt";
             open.ShowDialog();
@@ -1033,186 +1101,215 @@ namespace VJInfomationManager210220
             {
                 MessageBox.Show("File lỗi!");
             }
-            int currentthread = 0;
-            int Success = 0;
-            int Failed = 0;
+
+            //bool Success = false;
+            int SuccessTimes = 0;
+            int FailedTimes = 0;
+
+            int ca = 0;
+
             Thread t1 = new Thread(delegate ()
             {
+                List<VietJetInfomation2> ListVJI2 = new List<VietJetInfomation2>();
+
                 for (int a = 0; a < inputlist.Length; a++)
                 {
-                    try
+                    ca = a;
+
+                    if (inputlist[a] == null || inputlist[a] == "")
                     {
-                        Invoke((MethodInvoker)(() =>
-                        {
-                            this.button5.Text = (a + 1).ToString() + "/" + inputlist.Length.ToString() + " Success:" + Success.ToString() + " Failed:" + Failed;
-                            Application.DoEvents();
-                        }));
-                        while (true)
-                        {
-                            if (currentthread < InputData.MaxThread)
-                                break;
-                            Thread.Sleep(250);
-                        }
-                        currentthread++;
-                        string[] currentinfo = inputlist[a].Split('|');
-                        string flightcode = currentinfo[0];
-                        string firstname = currentinfo[1];
-                        string lastname = currentinfo[2];
-                        string dateflight1 = currentinfo[3];
-                        string flightcode1 = currentinfo[4];
-
-                        string dateflight2 = "";//currentinfo[5];
-                        string flightcode2 = "";// currentinfo[6];
-                        string email = "";// currentinfo[7];
-                        bool emailstandardizedsuccess = false;
-                        string emailstandardized = "";
-                        string phone = "";//currentinfo[8];
-                        bool phonestandardizedsuccess = false;
-                        string phonestandardized = "";
-                        string phonenetwork = "";
-                        string confirm = "";// currentinfo[9];
-                        string paymentstatus = "";// currentinfo[10];
-
-                        if (Regex.IsMatch(currentinfo[5], @"\d{2}/\d{2}/\d{4}"))
-                        {
-                            dateflight2 = currentinfo[5];
-                            flightcode2 = currentinfo[6];
-                            email = currentinfo[7];
-                            phone = currentinfo[8];
-                            confirm = currentinfo[9];
-                            paymentstatus = currentinfo[10];
-                        }
-                        else
-                        {
-                            email = currentinfo[5];
-                            phone = currentinfo[6];
-                            confirm = currentinfo[7];
-                            paymentstatus = currentinfo[8];
-                        }
-                        emailstandardized = EmailStandardizedHandle(email);
-                        if (emailstandardized != "")
-                            emailstandardizedsuccess = true;
-                        phonestandardized = PhoneStandardizedHandle(phone);
-                        if (phonestandardized != "")
-                            phonestandardizedsuccess = true;
-                        if (phonestandardizedsuccess)
-                            phonenetwork = HandlePhoneNetwork(phonestandardized);
-
-                        Thread t2 = new Thread(delegate ()
-                        {
-                        try
-                        {
-                            int lastinsertedid = new DataServer().InsertNewData2(flightcode, firstname, lastname, dateflight1, flightcode1, dateflight2, flightcode2, email,emailstandardizedsuccess, emailstandardized, phone,phonestandardizedsuccess, phonestandardized,phonenetwork, confirm, paymentstatus);
-                                Success++;
-                            }
-                            catch (Exception d)
-                            {
-                                //MessageBox.Show(d.Message);
-                                Failed++;
-                            }
-                            currentthread--;
-                        });
-                        t2.Start();
+                        FailedTimes++;
+                        continue;
                     }
-                    catch { }
-                }
-                while (true)
-                {
-                    if (currentthread ==0)
-                        break;
-                    Thread.Sleep(250);
 
+                    string[] currentinfo = inputlist[a].Split('|');
+
+                    //Kiểm tra chiều dài và mã khách hàng
+                    if (currentinfo.Length < 9 || currentinfo[0] == null || currentinfo[0] == "")
+                    {
+                        FailedTimes++;
+                        continue;
+                    }
+                    string customeriscode = currentinfo[0];
+
+                    //Kiểm tra họ
+                    if (currentinfo[1] == null || currentinfo[1] == "")
+                    {
+                        FailedTimes++;
+                        continue;
+                    }
+                    string firstname = currentinfo[1];
+
+                    //Kiểm tra tên
+                    if (currentinfo[2] == null || currentinfo[2] == "")
+                    {
+                        FailedTimes++;
+                        continue;
+                    }
+                    string lastname = currentinfo[2];
+
+                    //Kiểm tra ngày bay 1
+                    string dateflight1 = null;
+                    MatchCollection coll = Regex.Matches(currentinfo[3], "(\\d{2}/\\d{2}/\\d{4})");
+                    if (coll.Count < 1 || coll[0].Groups.Count < 2)
+                    {
+                        FailedTimes++;
+                        continue;
+                    }
+                    dateflight1 = coll[0].Groups[1].Value;
+
+                    //Kiểm tra mã chuyến bay 1
+                    if (currentinfo[4] == null || currentinfo[4] == "")
+                    {
+                        FailedTimes++;
+                        continue;
+                    }
+                    string flightcode1 = currentinfo[4];
+
+                    string dateflight2 = "";
+                    string flightcode2 = "";
+
+                    string email = "";
+                    string phone = "";
+                    string confirm = "";
+                    string paymentstatus = "";
+
+                    //Kiểm tra 11 trường . Kiểm tra ngày bay 2 chiều
+                    if (currentinfo.Length >= 11)
+                    {
+                        //ngày bay 2
+                        coll = Regex.Matches(currentinfo[5], "(\\d{2}/\\d{2}/\\d{4})");
+                        if (coll.Count < 1 || coll[0].Groups.Count < 2)
+                        {
+                            FailedTimes++;
+                            continue;
+                        }
+                        dateflight2 = coll[0].Groups[1].Value;
+
+                        //mã chuyến bay 2
+                        if (currentinfo[6] == null || currentinfo[6] == "")
+                        {
+                            FailedTimes++;
+                            continue;
+                        }
+                        flightcode2 = currentinfo[6];
+
+
+                        //Email
+                        if (currentinfo[7] == null || currentinfo[7] == "")
+                        {
+                            FailedTimes++;
+                            continue;
+                        }
+                        email = currentinfo[7];
+                        //SĐT
+                        if (currentinfo[8] == null || currentinfo[8] == "")
+                        {
+                            FailedTimes++;
+                            continue;
+                        }
+                        phone = currentinfo[8];
+                        //Xác nhận
+                        if (currentinfo[9] == null || currentinfo[9] == "")
+                        {
+                            FailedTimes++;
+                            continue;
+                        }
+                        confirm = currentinfo[9];
+                        //Thanh toán
+                        if (currentinfo[10] == null || currentinfo[10] == "")
+                        {
+                            FailedTimes++;
+                            continue;
+                        }
+                        paymentstatus = currentinfo[10];
+                    }
+                    else
+                    {
+                        //9 trường -> 1 chiều
+                        //Email
+                        if (currentinfo[5] == null || currentinfo[5] == "")
+                        {
+                            FailedTimes++;
+                            continue;
+                        }
+                        email = currentinfo[5];
+                        //SĐT
+                        if (currentinfo[6] == null || currentinfo[6] == "")
+                        {
+                            FailedTimes++;
+                            continue;
+                        }
+                        phone = currentinfo[6];
+                        //Xác nhận
+                        if (currentinfo[7] == null || currentinfo[7] == "")
+                        {
+                            FailedTimes++;
+                            continue;
+                        }
+                        confirm = currentinfo[7];
+                        //Thanh toán
+                        if (currentinfo[8] == null || currentinfo[8] == "")
+                        {
+                            FailedTimes++;
+                            continue;
+                        }
+                        paymentstatus = currentinfo[8];
+                    }
+
+                    //Chuẩn hóa Email
+                    bool emailstandardizedsuccess = false;
+                    string emailstandardized = "";
+
+                    //Chuẩn hóa SĐT
+                    bool phonestandardizedsuccess = false;
+                    string phonestandardized = "";
+                    string phonenetwork = "";
+
+                    //Chuẩn hóa số Email
+                    emailstandardized = new Class1().EmailStandardizedHandle(email);
+                    if (emailstandardized != "")
+                        emailstandardizedsuccess = true;
+
+                    //Chuẩn hóa số điện thoại
+                    phonestandardized = new Class1().PhoneStandardizedHandle(phone);
+                    if (phonestandardized != "")
+                        phonestandardizedsuccess = true;
+
+                    //Nhận diện nhà mạng
+                    if (phonestandardizedsuccess)
+                        phonenetwork = new Class1().HandlePhoneNetwork(phonestandardized);
+
+                    ListVJI2.Add(new VietJetInfomation2 { CustomerIsCode = customeriscode, FirstName = firstname, LastName = lastname, DateFlight1t2 = dateflight1, FlightCode1 = flightcode1, DateFlight2t2 = dateflight2, FlightCode2 = flightcode2, Email = email, EmailStandardizedSuccess = Convert.ToString(emailstandardizedsuccess), EmailStandardized = emailstandardized, Phone = phone, PhoneStandardizedSuccess = Convert.ToString(phonestandardizedsuccess), PhoneStandardized = phonestandardized, PhoneNetwork = phonenetwork, Confirm = confirm, PaymentStatus = paymentstatus });
+                    SuccessTimes++;
                 }
-                Invoke((MethodInvoker)(() =>
-                {
-                    this.button5.Text = "Hoàn thành Success:" + Success.ToString() + " Failed:" + Failed;
-                    Application.DoEvents();
-                }));
-                //Thread.Sleep(1000);
-                //Invoke((MethodInvoker)(() =>
-                //{
-                //    this.button5.Text = "Nhập dữ liệu 2";
-                //    Application.DoEvents();
-                //}));
+                //int lastinsertedid = 
+                new DataServer().InsertNewData2(ListVJI2);
             });
             t1.Start();
+            Thread t2 = new Thread(delegate ()
+            {
+                int countseconds = 0;
+                while (t1.IsAlive)
+                {
+                    countseconds++;
+                    //MessageBox.Show(t1.IsAlive.ToString());
+                    Thread.Sleep(100);
+                    Invoke((MethodInvoker)(() =>
+                    {
+                        this.button5.Text = ca.ToString() + "/" + inputlist.Length.ToString() + " " + (countseconds / 10).ToString() + "s" + Environment.NewLine + " OK:" + SuccessTimes.ToString() + " Failed:" + FailedTimes;
+                        Application.DoEvents();
+                    }));
+                }
+                Thread.Sleep(100);
+                Invoke((MethodInvoker)(() =>
+                {
+                    this.button5.Text = (countseconds / 10).ToString() + "s"+ " Hoàn thành OK:" + SuccessTimes.ToString() + Environment.NewLine + " Lỗi:" + FailedTimes;
+                    Application.DoEvents();
+                }));
+            });
+            t2.Start();
 
-        }
-        public string PhoneStandardizedHandle(string phone)
-        {
-            string returnphone = "";
-            phone = phone.Replace(" ", "");
-            string[] ListFirstNumberAccept = File.ReadAllLines(Application.StartupPath + "\\emailphoneruler.txt");
-            char[] RemoveChar = ListFirstNumberAccept[0].ToCharArray();
-            bool AcceptThisPhone = false;
-            for (int a = 2; a < ListFirstNumberAccept.Length; a++)
-            {
-                string[] ListNetwork = ListFirstNumberAccept[a].Split(',');
-                for(int b = 1; b < ListNetwork.Length; b++)
-                {
-                    if (Regex.IsMatch(phone, "^" + ListNetwork[b]))
-                    {
-                        AcceptThisPhone = true;
-                        break;
-                    }
-                }
-                if (AcceptThisPhone)
-                    break;
-            }
-            if (AcceptThisPhone)
-            {
-                try
-                {
-                    MatchCollection coll = Regex.Matches(phone, @"^84(\d{9}$)");
-                    phone = "0" + coll[0].Groups[1].Value;
-                }
-                catch { }
-                if (phone.Length == 10)
-                    returnphone = phone;
-            }
-            return returnphone;
-        }
-        public string HandlePhoneNetwork(string phone)
-        {
-            string PhoneNetwork = "Other";
-            string[] ListFirstNumberAccept = File.ReadAllLines(Application.StartupPath + "\\emailphoneruler.txt");
-            //char[] RemoveChar = ListFirstNumberAccept[0].ToCharArray();
-            bool IsANetwork = false;
-            for (int a = 2; a < ListFirstNumberAccept.Length; a++)
-            {
-                string[] ListNetwork = ListFirstNumberAccept[a].Split(',');
-                for (int b = 1; b < ListNetwork.Length; b++)
-                {
-                    if (Regex.IsMatch(phone, "^" + ListNetwork[b]))
-                    {
-                        IsANetwork = true;
-                        PhoneNetwork = ListNetwork[0];
-                        break;
-                    }
-                }
-                if (IsANetwork)
-                    break;
-            }
-            return PhoneNetwork;
-        }
-        public string EmailStandardizedHandle(string email)
-        {
-            string returnemail = "";
-            char[] ListCharacterNotAccept = File.ReadAllLines(Application.StartupPath + "\\emailphoneruler.txt")[1].ToCharArray();
-            if (email.Split('@').Length==2)
-                if(email.Split('.').Length >=2)
-                {
-                    bool AcceptThisEmail = true;
-                    for(int a=0;a<ListCharacterNotAccept.Length;a++)
-                        if (email.Split(ListCharacterNotAccept[a]).Length > 1)
-                        {
-                            AcceptThisEmail = false;
-                            break;
-                        }
-                    if (AcceptThisEmail)
-                        returnemail = email;
-                }
-            return returnemail;
         }
 
 
@@ -1248,7 +1345,7 @@ namespace VJInfomationManager210220
         public static string Database;
         public static string UID;
         public static string Password;
-        public static int MaxThread;
+        //public static int MaxThread;
     }
     class DataServer
     {
@@ -1286,30 +1383,84 @@ namespace VJInfomationManager210220
             conn.Close();
         }
 
-        public int InsertNewData(string flightcode, string firstname, string lastname, string dateflight1, string flight1, string flightcode1, string dateflight2, string flight2, string flightcode2, string seats)
+        //public int InsertNewData(string flightcode, string firstname, string lastname, string dateflight1, string flight1, string flightcode1, string dateflight2, string flight2, string flightcode2, string seats)
+        //{
+        //    MySqlConnection conn = new MySqlConnection("SERVER=" + InputData.Server + ";DATABASE=" + InputData.Database + ";UID=" + InputData.UID + ";PASSWORD=" + InputData.Password + ";CHARSET=utf8;");
+        //    conn.Open();
+        //    MySqlCommand cmd = new MySqlCommand();
+        //    cmd.CommandText = "INSERT INTO VietJetInfomation(flightcode,firstname,lastname,dateflight1,flight1,flightcode1,dateflight2,flight2,flightcode2,seats) VALUES ('" + flightcode + "','" + firstname + "','" + lastname + "','" + dateflight1 + "','" + flight1 + "','" + flightcode1 + "','" + dateflight2 + "','" + flight2 + "','" + flightcode2 + "','" + seats + "')";
+        //    cmd.Connection = conn;
+        //    cmd.ExecuteNonQuery();
+        //    int LastInsertedId = Convert.ToInt32(cmd.LastInsertedId);
+        //    conn.Close();
+        //    return LastInsertedId;
+        //}
+        //public void InsertNewData(string flightcode, string firstname, string lastname, string dateflight1, string flight1, string flightcode1, string dateflight2, string flight2, string flightcode2, string seats)
+        //{
+        //    MySqlConnection conn = new MySqlConnection("SERVER=" + InputData.Server + ";DATABASE=" + InputData.Database + ";UID=" + InputData.UID + ";PASSWORD=" + InputData.Password + ";CHARSET=utf8;");
+        //    conn.Open();
+        //    MySqlCommand cmd = new MySqlCommand();
+        //    cmd.CommandText = "INSERT INTO VietJetInfomation(flightcode,firstname,lastname,dateflight1,flight1,flightcode1,dateflight2,flight2,flightcode2,seats) VALUES ('" + flightcode + "','" + firstname + "','" + lastname + "','" + dateflight1 + "','" + flight1 + "','" + flightcode1 + "','" + dateflight2 + "','" + flight2 + "','" + flightcode2 + "','" + seats + "')";
+        //    cmd.Connection = conn;
+        //    cmd.ExecuteNonQuery();
+        //    //int LastInsertedId = Convert.ToInt32(cmd.LastInsertedId);
+        //    conn.Close();
+        //    //return LastInsertedId;
+        //}
+        public void InsertNewData(List<VietJetInfomation1> ListVJI1)
         {
-            MySqlConnection conn = new MySqlConnection("SERVER=" + InputData.Server + ";DATABASE=" + InputData.Database + ";UID=" + InputData.UID + ";PASSWORD=" + InputData.Password + ";CHARSET=utf8;");
-            conn.Open();
-            MySqlCommand cmd = new MySqlCommand();
-            cmd.CommandText = "INSERT INTO VietJetInfomation(flightcode,firstname,lastname,dateflight1,flight1,flightcode1,dateflight2,flight2,flightcode2,seats) VALUES ('" + flightcode + "','" + firstname + "','" + lastname + "','" + dateflight1 + "','" + flight1 + "','" + flightcode1 + "','" + dateflight2 + "','" + flight2 + "','" + flightcode2 + "','" + seats + "')";
-            cmd.Connection = conn;
-            cmd.ExecuteNonQuery();
-            int LastInsertedId = Convert.ToInt32(cmd.LastInsertedId);
-            conn.Close();
-            return LastInsertedId;
+            try
+            {
+                MySqlConnection conn = new MySqlConnection("SERVER=" + InputData.Server + ";DATABASE=" + InputData.Database + ";UID=" + InputData.UID + ";PASSWORD=" + InputData.Password + ";CHARSET=utf8;");
+
+                //MySqlCommand cmd = new MySqlCommand();
+                //cmd.CommandText = "INSERT INTO VietJetInfomation(flightcode,firstname,lastname,dateflight1,flight1,flightcode1,dateflight2,flight2,flightcode2,seats) VALUES ";
+
+                StringBuilder Command = new StringBuilder("INSERT IGNORE INTO VietJetInfomation(flightcode,firstname,lastname,dateflight1,flight1,flightcode1,dateflight2,flight2,flightcode2,seats) VALUES ");
+                List<string> Rows = new List<string>();
+                foreach (VietJetInfomation1 vji1 in ListVJI1)
+                {
+                    Rows.Add("('" + vji1.CustomerIsCode + "','" + vji1.FirstName + "','" + vji1.LastName + "','" + vji1.DateFlight1 + "','" + vji1.Flight1 + "','" + vji1.FlightCode1 + "','" + vji1.DateFlight2 + "','" + vji1.Flight2 + "','" + vji1.FlightCode2 + "','" + vji1.Seats + "')");
+                }
+                Command.Append(string.Join(",", Rows));
+                Command.Append(";");
+
+                conn.Open();
+                using (MySqlCommand myCmd = new MySqlCommand(Command.ToString(), conn))
+                {
+                    myCmd.Connection = conn;
+                    myCmd.CommandTimeout = 300;
+                    myCmd.CommandType = CommandType.Text;
+                    myCmd.ExecuteNonQuery();
+                }
+                conn.Close();
+            }
+            catch(Exception d) { MessageBox.Show(d.Message); }
         }
-        public int InsertNewData2(string customeriscode, string firstname, string lastname, string dateflight1, string flightcode1, string dateflight2, string flightcode2, string email, bool emailstandardizedsuccess, string emailstandardized, string phone, bool phonestandardizedsuccess, string phonestandardized,string phonenetwork, string confirm,string paymentstatus)
+        public void InsertNewData2(List<VietJetInfomation2> ListVJI2)
         {
             MySqlConnection conn = new MySqlConnection("SERVER=" + InputData.Server + ";DATABASE=" + InputData.Database + ";UID=" + InputData.UID + ";PASSWORD=" + InputData.Password + ";CHARSET=utf8;");
+            //MySqlCommand cmd = new MySqlCommand();
+            //cmd.CommandText = "INSERT INTO VietJetInfomation2(customeriscode,firstname,lastname,dateflight1,flightcode1,dateflight2,flightcode2,email,emailstandardizedsuccess,emailstandardized,phone,phonestandardizedsuccess,phonestandardized,phonenetwork,confirm,paymentstatus) VALUES ('" + customeriscode + "','" + firstname + "','" + lastname + "','" + dateflight1 + "','" + flightcode1 + "','" + dateflight2 + "','" + flightcode2 + "','" + email + "','" + Convert.ToString(emailstandardizedsuccess) + "','"+emailstandardized+"','" + phone + "','"+Convert.ToString(phonestandardizedsuccess)+"','" + phonestandardized + "','" + phonenetwork + "','" + confirm + "','" + paymentstatus + "')";
+
+            StringBuilder Command = new StringBuilder("INSERT IGNORE INTO VietJetInfomation2(customeriscode,firstname,lastname,dateflight1,flightcode1,dateflight2,flightcode2,email,emailstandardizedsuccess,emailstandardized,phone,phonestandardizedsuccess,phonestandardized,phonenetwork,confirm,paymentstatus) VALUES ");
+            List<string> Rows = new List<string>();
+            foreach (VietJetInfomation2 vji2 in ListVJI2)
+            {
+                Rows.Add("('" + vji2.CustomerIsCode + "','" + vji2.FirstName + "','" + vji2.LastName + "','" + vji2.DateFlight1t2 + "','" + vji2.FlightCode1 + "','" + vji2.DateFlight2t2 + "','" + vji2.FlightCode2 + "','" + vji2.Email + "','" + vji2.EmailStandardizedSuccess + "','" + vji2.EmailStandardized + "','" + vji2.Phone + "','" + vji2.PhoneStandardizedSuccess + "','" + vji2.PhoneStandardized + "','" + vji2.PhoneNetwork + "','" + vji2.Confirm + "','" + vji2.PaymentStatus + "')");
+            }
+            Command.Append(string.Join(",", Rows));
+            Command.Append(";");
+
             conn.Open();
-            MySqlCommand cmd = new MySqlCommand();
-            cmd.CommandText = "INSERT INTO VietJetInfomation2(customeriscode,firstname,lastname,dateflight1,flightcode1,dateflight2,flightcode2,email,emailstandardizedsuccess,emailstandardized,phone,phonestandardizedsuccess,phonestandardized,phonenetwork,confirm,paymentstatus) VALUES ('" + customeriscode + "','" + firstname + "','" + lastname + "','" + dateflight1 + "','" + flightcode1 + "','" + dateflight2 + "','" + flightcode2 + "','" + email + "','" + Convert.ToString(emailstandardizedsuccess) + "','"+emailstandardized+"','" + phone + "','"+Convert.ToString(phonestandardizedsuccess)+"','" + phonestandardized + "','" + phonenetwork + "','" + confirm + "','" + paymentstatus + "')";
-            //MessageBox.Show(cmd.CommandText);
-            cmd.Connection = conn;
-            cmd.ExecuteNonQuery();
-            int LastInsertedId = Convert.ToInt32(cmd.LastInsertedId);
+            using (MySqlCommand myCmd = new MySqlCommand(Command.ToString(), conn))
+            {
+                myCmd.Connection = conn;
+                myCmd.CommandTimeout = 300;
+                myCmd.CommandType = CommandType.Text;
+                myCmd.ExecuteNonQuery();
+            }
             conn.Close();
-            return LastInsertedId;
         }
 
         public List<VietJetInfomation> LoadAllData()
@@ -1516,20 +1667,19 @@ namespace VJInfomationManager210220
         public string PaymentStatus;
 
     }
-    //class VietJetInfomation1
-    //{
-    //    public int Id;
-    //    public string FlightCode;
-    //    public string FirstName;
-    //    public string LastName;
-    //    public string DateFlight1;
-    //    public string Flight1;
-    //    public string FlightCode1;
-    //    public string DateFlight2;
-    //    public string Flight2;
-    //    public string FlightCode2;
-    //    public string Seats;
-    //}
+    class VietJetInfomation1
+    {
+        public string CustomerIsCode;
+        public string FirstName;
+        public string LastName;
+        public string DateFlight1;
+        public string Flight1;
+        public string FlightCode1;
+        public string DateFlight2;
+        public string Flight2;
+        public string FlightCode2;
+        public string Seats;
+    }
     class VietJetInfomation2
     {
         public int Id;
